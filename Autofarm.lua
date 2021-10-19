@@ -29,7 +29,7 @@ end
 
 game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
     if State == Enum.TeleportState.Started then
-        syn.queue_on_teleport([[loadstring("")()]])
+        syn.queue_on_teleport([[loadstring("https://raw.githubusercontent.com/XR97onYT/AUTOFARM/main/Autofarm.lua")()]])
     end
 end)
 
