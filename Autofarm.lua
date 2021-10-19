@@ -27,11 +27,9 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
-game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
-    if State == Enum.TeleportState.Started then
-        syn.queue_on_teleport([[loadstring("https://raw.githubusercontent.com/XR97onYT/AUTOFARM/main/Autofarm.lua")()]])
-    end
-end)
+mousemoverel(50, 50)
+wait(1)
+mouse1click()
 
 local AutofarmOn = false
 local Started = false
