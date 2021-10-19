@@ -163,7 +163,7 @@ function Autofarm()
 
                                             pcall(function()
                                                 repeat
-                                                    if not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Golden Knife") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Flame") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") then
+                                                    if not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Golden") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Flame") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") then
                                                         PlayerLockedOn = v
                                                         wait()
                                                     else
