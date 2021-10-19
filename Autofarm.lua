@@ -267,6 +267,22 @@ game:GetService("RunService").RenderStepped:Connect(function()
                         end
                     end
                 end
+	    elseif Target.Parent:IsA("Accessory") then
+	    	if game:GetService("Players"):FindFirstChild(Target.Parent.Parent.Name) then
+                    local ThisPlayer = game:GetService("Players"):FindFirstChild(Target.Parent.Parent.Name)
+                    if ThisPlayer.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
+                        if ThisPlayer.Status.Team.Value ~= "Spectator" then
+                            if ThisPlayer.NRPBS.Health.Value > 0 then
+                                mouse1press()
+                                mouse1rel()
+                                if (tick() - printItTick) >= 1 then
+                                    print(PlayerLockedOn)
+                                    printItTick = tick()
+                                end
+                            end
+                        end
+                    end
+                end
             end
         end
     end
