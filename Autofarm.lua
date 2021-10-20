@@ -234,16 +234,18 @@ local printItTick = tick()
 local pressmvtc = tick()
 local switchTick = tick()
 local random1 = math.random(-2, 2)
+local random3 = math.random(-2, 2)
 local random2 = math.random(0, 3)
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 then
              workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	     workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(random1, random2, 0), PlayerLockedOn.Character.Head.Position - Vector3.new(0, 0.5, 0))
+	     workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(random1, random2, random3), PlayerLockedOn.Character.Head.Position - Vector3.new(0, 0.5, 0))
              if (tick() - switchTick) >= 0.5 then
 		random1 = math.random(-2, 2)
 		random2 = math.random(0, 3)
+		random3 = math.random(-2, 2)
 		switchTick = tick()
 	     end
         end
