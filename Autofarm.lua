@@ -232,12 +232,16 @@ end)
 local MyMouse = game:GetService("Players").LocalPlayer:GetMouse()
 local printItTick = tick()
 local pressmvtc = tick()
+local switchTick = tick()
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 then
              workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-             workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(math.random(-2, 2), math.random(0, 3), 0), PlayerLockedOn.Character.Head.Position - Vector3.new(0, 0.5, 0))
+             if (tick() - switchTick) >= 0.5 then
+		workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(math.random(-2, 2), math.random(0, 3), 0), PlayerLockedOn.Character.Head.Position - Vector3.new(0, 0.5, 0))
+		switchTick = tick()
+	     end
         end
         local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
         local List = {}
