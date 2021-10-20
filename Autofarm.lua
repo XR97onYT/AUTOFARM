@@ -235,9 +235,9 @@ local pressmvtc = tick()
 
 game:GetService("RunService").RenderStepped:Connect(function()
     if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
-        if PlayerLockedOn then
+        if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 then
              workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-             workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(math.random(-3.5,3.5), math.random(0, 4), 0), PlayerLockedOn.Character.Head.Position - Vector3.new(0, 1, 0))
+             workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(math.random(-2, 2), math.random(0, 3), 0), PlayerLockedOn.Character.Head.Position - Vector3.new(0, 0.5, 0))
         end
         local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
         local List = {}
