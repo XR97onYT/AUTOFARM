@@ -143,10 +143,11 @@ function Autofarm()
 	
 
 	Started = true
-
+	serverHoppedCuzSC = false
 	spawn(function()
 		local works,no = pcall(function()
 			repeat
+			    if game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" and not serverHoppedCuzSC then serverHoppedCuzSC = true hopServer() end
 			    game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				if game.Players.LocalPlayer.Status.Team.Value ~= "Spectator" then
 				    sayMessage("Im probably AFK right now, do not try talk to me.")
