@@ -168,8 +168,8 @@ function Autofarm()
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
 														local tweenService = game:GetService("TweenService")
-														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart + CFrame.new(-7, 10, 7)
-														local finalCframe = v.Character.HumanoidRootPart.CFrame
+														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
+														local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(-7, 10, 7)
 														local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
 														local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 														tween:Play() 
