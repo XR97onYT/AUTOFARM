@@ -163,13 +163,17 @@ function Autofarm()
 											end
 
                                             pcall(function()
+						local s = 1
                                                 repeat
-                                                    if 1 == 1  then -- Used to be something else but we dont need it anymore lmao
+                                                    if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
                                                         PlayerLockedOn = v
+							local Vals = {}
+							for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
+							for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then s = 2 hopServer() break end end
 							local tweenService = game:GetService("TweenService")
-							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
+							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart + CFrame.new(-7, 10, 7)
 							local finalCframe = v.Character.HumanoidRootPart.CFrame
-							local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
+							local tweenInfo = TweenInfo.new(0, Enum.EasingStyle.Quad)								
 							local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 							tween:Play() 
 
