@@ -168,13 +168,10 @@ function Autofarm()
                                                         PlayerLockedOn = v
 							local tweenService = game:GetService("TweenService")
 							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-							local finalCframe = v.Character.HumanoidRootPart.CFrame --Change to the CFrame of your final position
-							local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Sine)
-						 
-							--Create the tween. The last argument is a list of final values, which can be basically anything.
-							--For example, to tween color it would be {Color = Color3.new(1,0,0)}
+							local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(math.random(-5, 5), 5, 0))
+																
 							local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
-							tween:Play() --Finally, Play it!
+							tween:Play() 
 
                                                         wait()
                                                     else
