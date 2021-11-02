@@ -169,7 +169,7 @@ function Autofarm()
 							local tweenService = game:GetService("TweenService")
 							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
 							local finalCframe = v.Character.HumanoidRootPart.Position + Vector3.new(5, 5, 5)
-																
+							local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
 							local tween = tweenService:Create(partToTween, tweenInfo, {Position = finalCframe})
 							tween:Play() 
 
