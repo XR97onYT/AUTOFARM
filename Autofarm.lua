@@ -168,7 +168,7 @@ function Autofarm()
                                                         PlayerLockedOn = v
 							local tweenService = game:GetService("TweenService")
 							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-							local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(5, 5, 5)
+							local finalCframe = v.Character.HumanoidRootPart.CFrame
 							local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
 							local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 							tween:Play() 
@@ -241,8 +241,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
     if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
              workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	     workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.HeadHB.Position + Vector3.new(random1, random2, random3), PlayerLockedOn.Character.HeadHB.Position - Vector3.new(0, 0.5, 0))
-             if (tick() - switchTick) >= 0.5 then
+	     workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position + Vector3.new(1, 0, 1), PlayerLockedOn.Character.HeadHB.Position - Vector3.new(0, 0.5, 0))
+             if (tick() - switchTick) >= 0.5 then -- I may use the random thing later, it was mostly for positioning the head to the player. Due to exploit fixes, I now have to try other things...
 		random1 = math.random(-2, 2)
 		random2 = math.random(0, 3)
 		random3 = math.random(-2, 2)
