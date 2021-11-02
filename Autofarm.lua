@@ -166,6 +166,7 @@ function Autofarm()
                                                 repeat
                                                     if not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Golden") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Flame") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") then
                                                         PlayerLockedOn = v
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame + CFrame.new(7, 5, 0)
                                                         wait()
                                                     else
                                                         local args = {
