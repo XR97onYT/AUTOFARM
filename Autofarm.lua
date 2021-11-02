@@ -164,23 +164,15 @@ function Autofarm()
 
                                             pcall(function()
                                                 repeat
-                                                    if not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Golden") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Flame") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") then
+                                                    if 1 == 1  then -- Used to be something else but we dont need it anymore lmao
                                                         PlayerLockedOn = v
 							local tweenService = game:GetService("TweenService")
 							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-							local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(math.random(-5, 5), 5, 0))
+							local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(math.random(-10, 10), 10, 0))
 																
 							local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 							tween:Play() 
 
-                                                        wait()
-                                                    else
-                                                        local args = {
-                                                            [1] = v.Character.Head,
-                                                            [2] = "\0\0\0\0\0\0\0\0\0\0\0\0\7\0\0\0Autobow\2\2\210\247C\0\0\1\0\0\0\0\0\0@\1\0\0"
-                                                        }
-                                                        
-                                                        game:GetService("ReplicatedStorage").Events.HitPart:FireServer(unpack(args))
                                                         wait()
                                                     end
                                                 until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
