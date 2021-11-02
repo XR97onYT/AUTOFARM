@@ -168,7 +168,7 @@ function Autofarm()
                                                         PlayerLockedOn = v
 							local tweenService = game:GetService("TweenService")
 							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-							local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(Vector3.new(math.random(-10, 10), 10, 0))
+							local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(math.random(-10, 10), 10, 0)
 																
 							local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 							tween:Play() 
