@@ -166,7 +166,16 @@ function Autofarm()
                                                 repeat
                                                     if not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Golden") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Flame") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") and not game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") then
                                                         PlayerLockedOn = v
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame + CFrame.new(7, 5, 0)
+							local tweenService = game:GetService("TweenService")
+							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
+							local finalCframe = v.Character.HumanoidRootPart.CFrame --Change to the CFrame of your final position
+							local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Sine)
+						 
+							--Create the tween. The last argument is a list of final values, which can be basically anything.
+							--For example, to tween color it would be {Color = Color3.new(1,0,0)}
+							local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
+							tween:Play() --Finally, Play it!
+
                                                         wait()
                                                     else
                                                         local args = {
