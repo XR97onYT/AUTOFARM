@@ -167,9 +167,11 @@ function Autofarm()
                                                 repeat
                                                     if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
                                                         PlayerLockedOn = v
-							local Vals = {}
-							for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
-							for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then s = 2 hopServer() break end end
+							spawn(function()
+							    local Vals = {}
+							    for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
+							    for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then s = 2 hopServer() break end end
+							end)
 							local tweenService = game:GetService("TweenService")
 							local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart + CFrame.new(-7, 10, 7)
 							local finalCframe = v.Character.HumanoidRootPart.CFrame
