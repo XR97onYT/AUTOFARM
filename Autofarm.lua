@@ -45,14 +45,14 @@ local user = service.Players.LocalPlayer
 local mouse = user:GetMouse()
 
 local teleport = function(pos)
-	local WAIT_SPEED = 1 / 30
+	local WAIT_SPEED = 1 / 100
 
 	local root_part = user.Character:FindFirstChild('HumanoidRootPart') or user.Character:FindFirstChild('Torso')
 	root_part.Anchored = true
 	local target = pos
 	local start = root_part.CFrame
 	local distance = (target.p - start.p).magnitude
-	for i = 0, 1, (16 / distance) * WAIT_SPEED do
+	for i = 0, 1, (25 / distance) * WAIT_SPEED do
 		local new_position = start:lerp(target, i)
 		root_part.CFrame = new_position
 		wait(WAIT_SPEED)
