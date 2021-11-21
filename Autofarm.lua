@@ -235,14 +235,8 @@ local random2 = math.random(0, 3)
 game:GetService("RunService").RenderStepped:Connect(function()
 	if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
-			workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-			workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
-			local tweenService = game:GetService("TweenService")
-			local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-			local finalCframe = PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0)
-			local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
-			local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
-			tween:Play() 
+			workspace.CurrentCamera.CFrame = CFrame.lookAt(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
+			game.Players.LocalPlayer:SetPrimaryPartCFrame(PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
 		end
 		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
 		local List = {}
