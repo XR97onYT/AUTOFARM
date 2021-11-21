@@ -31,6 +31,39 @@ mousemoverel(50, 50)
 wait(1)
 mouse1click()
 
+if _G.teleport_disconnect then
+	_G.teleport_disconnect()
+end
+
+local service = setmetatable({ }, {
+	__index = function(self, key)
+		return game:GetService(key)
+	end
+})
+
+local user = service.Players.LocalPlayer
+local mouse = user:GetMouse()
+
+local teleport = function(pos)
+	local WAIT_SPEED = 1 / 5000
+
+	local root_part = user.Character:FindFirstChild('HumanoidRootPart') or user.Character:FindFirstChild('Torso')
+	root_part.Anchored = true
+	local target = pos
+	local start = root_part.CFrame
+	local distance = (target.p - start.p).magnitude
+	for i = 0, 1, (16 / distance) * WAIT_SPEED do
+		local new_position = start:lerp(target, i)
+		root_part.CFrame = new_position
+		wait(WAIT_SPEED)
+	end
+	root_part.Anchored = false
+end
+
+_G.teleport_disconnect = function()
+	_G.teleport_disconnect = nil
+end
+
 local AutofarmOn = false
 local Started = false
 local Time = 40
@@ -151,7 +184,6 @@ function Autofarm()
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				if game.Players.LocalPlayer.Status.Team.Value ~= "Spectator" then
 					sayMessage("Im probably AFK right now, do not try talk to me.")
-					PlayerLockedOn = nil
 					for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 						if v ~= game.Players.LocalPlayer then
 							if v.Status.Team.Value ~= "Spectator" and v.Status.Team.Value ~= game.Players.LocalPlayer.Status.Team.Value then
@@ -168,6 +200,13 @@ function Autofarm()
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
+														local tweenService = game:GetService("TweenService")
+														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
+														local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
+														local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
+														local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
+														tween:Play() 
+
 														wait()
 													end
 												until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
@@ -235,8 +274,8 @@ local random2 = math.random(0, 3)
 game:GetService("RunService").RenderStepped:Connect(function()
 	if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
-			workspace.CurrentCamera.CFrame = CFrame.lookAt(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
-			game.Players.LocalPlayer:SetPrimaryPartCFrame(PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
+			workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+			teleport(CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position))
 		end
 		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
 		local List = {}
