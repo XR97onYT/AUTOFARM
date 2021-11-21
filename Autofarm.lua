@@ -240,7 +240,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			local tweenService = game:GetService("TweenService")
 			local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
 			local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
-			local tweenInfo = TweenInfo.new(0.01, Enum.EasingStyle.Quad)								
+			local tweenInfo = TweenInfo.new(.7, Enum.EasingStyle.Quad)								
 			local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 			tween:Play() 
 		end
