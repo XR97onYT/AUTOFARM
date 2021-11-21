@@ -270,7 +270,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 			workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(3, 3, 0), PlayerLockedOn.Character.HeadHB.Position)
-			teleport(v.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
+			teleport(PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
 		end
 		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
 		local List = {}
