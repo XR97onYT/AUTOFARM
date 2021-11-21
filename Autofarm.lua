@@ -45,14 +45,14 @@ local user = service.Players.LocalPlayer
 local mouse = user:GetMouse()
 
 local teleport = function(pos)
-	local WAIT_SPEED = 1 / 60
+	local WAIT_SPEED = 1 / 30
 
 	local root_part = user.Character:FindFirstChild('HumanoidRootPart') or user.Character:FindFirstChild('Torso')
 	root_part.Anchored = true
 	local target = pos
 	local start = root_part.CFrame
 	local distance = (target.p - start.p).magnitude
-	for i = 0, 1, (25 / distance) * WAIT_SPEED do
+	for i = 0, 1, (16 / distance) * WAIT_SPEED do
 		local new_position = start:lerp(target, i)
 		root_part.CFrame = new_position
 		wait(WAIT_SPEED)
@@ -200,7 +200,7 @@ function Autofarm()
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
-														teleport(v.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
+														teleport(v.Character.Head.CFrame + CFrame.new(1, 4, 0))
 														wait()
 													end
 												until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
