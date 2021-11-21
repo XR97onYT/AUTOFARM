@@ -45,7 +45,7 @@ local user = service.Players.LocalPlayer
 local mouse = user:GetMouse()
 
 local teleport = function(pos)
-	local WAIT_SPEED = 1 / 5000
+	local WAIT_SPEED = 1 / 30
 
 	local root_part = user.Character:FindFirstChild('HumanoidRootPart') or user.Character:FindFirstChild('Torso')
 	root_part.Anchored = true
@@ -200,12 +200,7 @@ function Autofarm()
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
-														local tweenService = game:GetService("TweenService")
-														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-														local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
-														local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
-														local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
-														tween:Play() 
+														teleport(v.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
 
 														wait()
 													end
@@ -275,7 +270,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
-			teleport(PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
 		end
 		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
 		local List = {}
