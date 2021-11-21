@@ -45,7 +45,7 @@ local user = service.Players.LocalPlayer
 local mouse = user:GetMouse()
 
 local teleport = function(pos)
-	local WAIT_SPEED = 1 / 100
+	local WAIT_SPEED = 1 / 60
 
 	local root_part = user.Character:FindFirstChild('HumanoidRootPart') or user.Character:FindFirstChild('Torso')
 	root_part.Anchored = true
@@ -200,7 +200,7 @@ function Autofarm()
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
-
+														teleport(v.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
 														wait()
 													end
 												until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
@@ -270,7 +270,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 			workspace.CurrentCamera.CFrame = CFrame.new(PlayerLockedOn.Character.Head.Position + Vector3.new(3, 3, 0), PlayerLockedOn.Character.HeadHB.Position)
-			teleport(PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0))
 		end
 		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
 		local List = {}
