@@ -31,72 +31,6 @@ mousemoverel(50, 50)
 wait(1)
 mouse1click()
 
-function teleport(x,y,z)
--- SETTINGS START
-local valtomove = 100
-noclip = true
-anchored = true
--- SETTINGS END
-
-
-moving = true
-if x < game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X then
-while x < game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X do
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X-valtomove,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z))
-end
-end
-if z < game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z then
-while z < game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z do
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z-valtomove))
-end
-end
-if x > game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X then
-while x > game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X do
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X+valtomove,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z))
-end
-end
-if z > game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z then
-while z > game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z do
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z+valtomove))
-end
-end
-if y < game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y then
-while y < game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y do
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y-valtomove,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z))
-end
-end
-if y > game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y then
-while y > game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y do
-wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Position.X,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Y+valtomove,game.Players.LocalPlayer.Character.HumanoidRootPart.Position.Z))
-end
-end
-moving = false
-game.Players.LocalPlayer.Character:MoveTo(Vector3.new(x,y,z))
-if anchored == true then
-game.Players.LocalPlayer.Character.Head.Anchored = false
-end
-end
-
-spawn (function()
-game:getService("RunService"):BindToRenderStep("",0,function()
-if not game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid") then return end
-if moving == true then
-if noclip == true then
-game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid"):ChangeState(11)
-end
-if anchored == true then
-game.Players.LocalPlayer.Character.Head.Anchored = true
-end
-end
-end)
-end)
-
 local AutofarmOn = false
 local Started = false
 local Time = 40
@@ -233,7 +167,12 @@ function Autofarm()
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
-														teleport(v.Character.Head.Position.X + 1, v.Character.Head.Position.Y + 4, v.Character.Head.Position.Z)
+														local tweenService = game:GetService("TweenService")
+														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
+														local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
+														local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
+														local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
+														tween:Play() 
 														wait()
 													end
 												until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
