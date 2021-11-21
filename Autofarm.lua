@@ -46,7 +46,7 @@ end
 function Autofarm()
 	spawn(function()
 		repeat
-		    wait(1)
+			wait(1)
 			if Started then
 				if not AutofarmOn then
 					Time = Time - 1
@@ -140,17 +140,17 @@ function Autofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
 		end
 	end)
-	
+
 
 	Started = true
 	serverHoppedCuzSC = false
 	spawn(function()
 		local works,no = pcall(function()
 			repeat
-			    if game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" and not serverHoppedCuzSC then serverHoppedCuzSC = true hopServer() end
-			    game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
+				if game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" and not serverHoppedCuzSC then serverHoppedCuzSC = true hopServer() end
+				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				if game.Players.LocalPlayer.Status.Team.Value ~= "Spectator" then
-				    sayMessage("Im probably AFK right now, do not try talk to me.")
+					sayMessage("Im probably AFK right now, do not try talk to me.")
 					for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 						if v ~= game.Players.LocalPlayer then
 							if v.Status.Team.Value ~= "Spectator" and v.Status.Team.Value ~= game.Players.LocalPlayer.Status.Team.Value then
@@ -162,22 +162,22 @@ function Autofarm()
 												Time = 25
 											end
 
-                                            pcall(function()
-											local s = 1
+											pcall(function()
+												local s = 1
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
 														local tweenService = game:GetService("TweenService")
 														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-														local finalCframe = v.Character.HumanoidRootPart.CFrame + CFrame.new(-7, 10, 7)
+														local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
 														local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
 														local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 														tween:Play() 
 
-                                                        wait()
-                                                    end
-                                                until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
-                                            end)
+														wait()
+													end
+												until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
+											end)
 										end
 									end
 								end
@@ -191,7 +191,7 @@ function Autofarm()
 				wait()
 			until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 		end)
-		
+
 		if not works then print(no) end
 
 		local Messages = {
@@ -239,68 +239,62 @@ local random3 = math.random(-2, 2)
 local random2 = math.random(0, 3)
 
 game:GetService("RunService").RenderStepped:Connect(function()
-    if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
-        if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
-             workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-	     workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position + Vector3.new(1, 0, 1), PlayerLockedOn.Character.HeadHB.Position - Vector3.new(0, 0.5, 0))
-             if (tick() - switchTick) >= 0.5 then -- I may use the random thing later, it was mostly for positioning the head to the player. Due to exploit fixes, I now have to try other things...
-		random1 = math.random(-2, 2)
-		random2 = math.random(0, 3)
-		random3 = math.random(-2, 2)
-		switchTick = tick()
-	     end
-        end
-        local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
-        local List = {}
-        if workspace:FindFirstChild("Map") then
-            List = {workspace.Map}
-        end
-        if (tick() - pressmvtc) >= 1 then
-            mouse1click()
-            mousemoverel(1, 1)
-            pressmvtc = tick()
-				
+	if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
+		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
+			workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+			workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
+		end
+		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
+		local List = {}
+		if workspace:FindFirstChild("Map") then
+			List = {workspace.Map}
+		end
+		if (tick() - pressmvtc) >= 1 then
+			mouse1click()
+			mousemoverel(1, 1)
+			pressmvtc = tick()
+
 			local Vals = {}
 			for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
 			for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then s = 2 hopServer() break end end
-        end
-        local Target = workspace:FindPartOnRayWithIgnoreList(Ray, List)
-        if Target then
-            if Target.Parent:IsA("Model") then
-                if game:GetService("Players"):FindFirstChild(Target.Parent.Name) then
-                    local ThisPlayer = game:GetService("Players"):FindFirstChild(Target.Parent.Name)
-                    if ThisPlayer.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
-                        if ThisPlayer.Status.Team.Value ~= "Spectator" then
-                            if ThisPlayer.NRPBS.Health.Value > 0 then
-                                mouse1press()
-                                mouse1rel()
-                                if (tick() - printItTick) >= 1 then
-                                    print(PlayerLockedOn)
-                                    printItTick = tick()
-                                end
-                            end
-                        end
-                    end
-                end
-	    elseif Target.Parent:IsA("Accessory") then
-	    	if game:GetService("Players"):FindFirstChild(Target.Parent.Parent.Name) then
-                    local ThisPlayer = game:GetService("Players"):FindFirstChild(Target.Parent.Parent.Name)
-                    if ThisPlayer.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
-                        if ThisPlayer.Status.Team.Value ~= "Spectator" then
-                            if ThisPlayer.NRPBS.Health.Value > 0 then
-                                mouse1press()
-                                mouse1rel()
-                                if (tick() - printItTick) >= 1 then
-                                    print(PlayerLockedOn)
-                                    printItTick = tick()
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
+		end
+		local Target = workspace:FindPartOnRayWithIgnoreList(Ray, List)
+		if Target then
+			if Target.Parent:IsA("Model") then
+				if game:GetService("Players"):FindFirstChild(Target.Parent.Name) then
+					local ThisPlayer = game:GetService("Players"):FindFirstChild(Target.Parent.Name)
+					if ThisPlayer.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
+						if ThisPlayer.Status.Team.Value ~= "Spectator" then
+							if ThisPlayer.NRPBS.Health.Value > 0 then
+								mouse1press()
+								mouse1rel()
+								if (tick() - printItTick) >= 1 then
+									print(PlayerLockedOn)
+									printItTick = tick()
+								end
+							end
+						end
+					end
+				end
+			elseif Target.Parent:IsA("Accessory") then
+				if game:GetService("Players"):FindFirstChild(Target.Parent.Parent.Name) then
+					local ThisPlayer = game:GetService("Players"):FindFirstChild(Target.Parent.Parent.Name)
+					if ThisPlayer.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
+						if ThisPlayer.Status.Team.Value ~= "Spectator" then
+							if ThisPlayer.NRPBS.Health.Value > 0 then
+								mouse1press()
+								mouse1rel()
+								if (tick() - printItTick) >= 1 then
+									print(PlayerLockedOn)
+									printItTick = tick()
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
 end)
 
 Autofarm()
