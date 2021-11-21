@@ -239,8 +239,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
 			local tweenService = game:GetService("TweenService")
 			local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-			local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
-			local tweenInfo = TweenInfo.new(.7, Enum.EasingStyle.Quad)								
+			local finalCframe = PlayerLockedOn.Character.HeadHB.CFrame + CFrame.new(1, 4, 0)
+			local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
 			local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
 			tween:Play() 
 		end
