@@ -151,6 +151,7 @@ function Autofarm()
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				if game.Players.LocalPlayer.Status.Team.Value ~= "Spectator" then
 					sayMessage("Im probably AFK right now, do not try talk to me.")
+					PlayerLockedOn = nil
 					for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 						if v ~= game.Players.LocalPlayer then
 							if v.Status.Team.Value ~= "Spectator" and v.Status.Team.Value ~= game.Players.LocalPlayer.Status.Team.Value then
@@ -167,13 +168,6 @@ function Autofarm()
 												repeat
 													if s == 1  then -- Used to be a check for weapons but we dont need it now, because new anti exploits force me to use teleportation :)
 														PlayerLockedOn = v
-														local tweenService = game:GetService("TweenService")
-														local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
-														local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
-														local tweenInfo = TweenInfo.new(0.001, Enum.EasingStyle.Quad)								
-														local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
-														tween:Play() 
-
 														wait()
 													end
 												until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true or not v or not v.Character or v.NRPBS.Health.Value <= 0
@@ -243,6 +237,12 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if PlayerLockedOn and PlayerLockedOn.Character and PlayerLockedOn.NRPBS.Health.Value > 0 and PlayerLockedOn.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 			workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLockedOn.Character.HeadHB.Position)
+			local tweenService = game:GetService("TweenService")
+			local partToTween = game.Players.LocalPlayer.Character.HumanoidRootPart
+			local finalCframe = v.Character.Head.CFrame + CFrame.new(1, 4, 0)
+			local tweenInfo = TweenInfo.new(0.01, Enum.EasingStyle.Quad)								
+			local tween = tweenService:Create(partToTween, tweenInfo, {CFrame = finalCframe})
+			tween:Play() 
 		end
 		local Ray = Ray.new(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 1000)
 		local List = {}
