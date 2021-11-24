@@ -54,9 +54,7 @@ setreadonly(gmt, true)
 
 local Vector = Vector2.new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2  - (game:GetService("GuiService"):GetGuiInset().Y/2))
 
-mousemoverel(Vector.X, Vector.Y)
-wait(1)
-mouse1click()
+mousemoverel(50, 50)
 
 local Farming = false
 local Hopped = false
@@ -274,7 +272,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				if game:GetService("Players").LocalPlayer:GetMouse().Target:IsDescendantOf(PlayerLocked.Character) then
 				    workspace.Msg.Text = "Shooting"
 					mouse1press()
-					mouse1release()
+					mouse1rel()
 				end
 			end
 		end
