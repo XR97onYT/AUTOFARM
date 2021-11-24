@@ -245,35 +245,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4)
 			)
-			local Blacklist = {workspace.CurrentCamera}
-        	if game:GetService("Players").LocalPlayer.Character then
-        		table.insert(Blacklist, game:GetService("Players").LocalPlayer.Character)
-        	end
-        	if workspace:FindFirstChild("Map") then
-        		table.insert(Blacklist, workspace.Map)
-        	end
-        	
-        	local NewRay = workspace:FindPartOnRayWithIgnoreList(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 1.5, 0), workspace.CurrentCamera.CFrame.LookVector * 50000, Blacklist)
-        	local PlayerGot
-        	
-        	if NewRay then
-        		if NewRay:IsDescendantOf(workspace) then
-        			if NewRay.Parent:IsA("Model") then
-        				if game:GetService("Players"):GetPlayerFromCharacter(NewRay.Parent) then
-        					PlayerGot = game:GetService("Players"):GetPlayerFromCharacter(NewRay.Parent)
-        				end
-        			elseif NewRay.Parent:IsA("Accessory") then
-        				if game:GetService("Players"):GetPlayerFromCharacter(NewRay.Parent.Parent) then
-        					PlayerGot = game:GetService("Players"):GetPlayerFromCharacter(NewRay.Parent.Parent)
-        				end
-        			end
-        		end
-        		
-        		if PlayerGot and PlayerGot.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value and PlayerGot.NRPBS.Health.Value > 0 then
-        			mouse1press()
-        			mouse1rel()
-        		end
-        	end
+			mouse1click()
 		end
 	end
 	
