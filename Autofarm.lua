@@ -109,6 +109,8 @@ end
 
 function StartAutofarm()
 	Farming = true
+	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
+	-- lol infinite ammo, didn't feel like making my own script for that
 
 	coroutine.resume(coroutine.create(function()
 		wait(2.5)
