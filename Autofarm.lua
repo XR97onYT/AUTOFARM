@@ -57,7 +57,7 @@ local Vector = Vector2.new(workspace.CurrentCamera.ViewportSize.X / 2, workspace
 mousemoveabs(Vector.X, Vector.Y)
 wait(0.5)
 mouse1press()
-mouse1rel()
+mouse1release()
 
 local Farming = false
 local Hopped = false
@@ -275,7 +275,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				if game:GetService("Players").LocalPlayer:GetMouse().Target:IsDescendantOf(PlayerLocked.Character) then
 				    workspace.Msg.Text = "Shooting"
 					mouse1press()
-					mouse1rel()
+					mouse1release()
 				end
 			end
 		end
