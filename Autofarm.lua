@@ -230,7 +230,7 @@ end))
 
 coroutine.resume(coroutine.create(function()
 	while wait() do
-		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value > 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
+		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 		end
 	end
