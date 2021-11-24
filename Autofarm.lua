@@ -52,9 +52,12 @@ end
 
 setreadonly(gmt, true)
 
-mousemoverel(50, 50)
+local Vector = Vector2.new(workspace.CurrentCamera.ViewportSize.X / 2, workspace.CurrentCamera.ViewportSize.Y / 2  - (game:GetService("GuiService"):GetGuiInset().Y/2))
+
+mousemoveabs(Vector.X, Vector.Y)
 wait(0.5)
-mouse1click()
+mouse1press()
+mouse1rel()
 
 local Farming = false
 local Hopped = false
