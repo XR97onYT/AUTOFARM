@@ -238,7 +238,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			else
 				if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 					game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-					sayMessage(Message)
+					if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false then sayMessage(Message) end
 				end
 
 				local Vals = {}
@@ -277,7 +277,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			end
 		end
 	end
-
+	
+	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil end
 	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
 	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
 end)
