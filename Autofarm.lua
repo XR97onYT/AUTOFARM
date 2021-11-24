@@ -9,13 +9,13 @@
 function ServerHop()
 	local Servers = {}
 	local URL = "https://games.roblox.com/v1/games/286090429/servers/Public?sortOrder=Asc&limit=100"
-	
+
 	for index, server in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(URL)).data) do
 		if type(server) == "table" and server.playing <= 15 and server.id ~= game.JobId then
 			table.insert(Servers, server.id)
 		end
 	end
-	
+
 	if #Servers > 0 then
 		game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, Servers[math.random(1, #Servers)])
 	end
@@ -60,6 +60,7 @@ local Farming = false
 local Hopped = false
 local TimeLeft = 30
 local CheckTick = tick()
+local Message = "Good Job making your anticheat xonae!"
 local PlayerLocked
 
 function DetectPlayer()
@@ -70,14 +71,14 @@ function DetectPlayer()
 	if workspace:FindFirstChild("Map") then
 		table.insert(Blacklist, workspace.Map)
 	end
-	
+
 	local RaycastParam = RaycastParams.new()
 	RaycastParam.FilterType = Enum.RaycastFilterType.Blacklist
 	RaycastParam.FilterDescendantsInstances = Blacklist
-	
+
 	local NewRay = Ray.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 1.5, 0), workspace.CurrentCamera.CFrame.LookVector * 50000, RaycastParam)
 	local PlayerGot
-	
+
 	if NewRay.Instance then
 		if NewRay.Instance:IsDescendantOf(workspace) then
 			if NewRay.Instance.Parent:IsA("Model") then
@@ -90,12 +91,12 @@ function DetectPlayer()
 				end
 			end
 		end
-		
+
 		if PlayerGot and PlayerGot.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value and PlayerGot.NRPBS.Health.Value > 0 then
 			return true
 		end
 	end
-	
+
 	return false
 end
 
@@ -108,7 +109,7 @@ end
 
 function StartAutofarm()
 	Farming = true
-	
+
 	coroutine.resume(coroutine.create(function()
 		wait(2.5)
 
@@ -186,7 +187,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
 		end
 	end))
-	
+
 	coroutine.resume(coroutine.create(function()
 		repeat
 			if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
@@ -198,7 +199,7 @@ function StartAutofarm()
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										if v.Status.Alive.Value == true then
 											TimeLeft = 25
-											
+
 											repeat
 												PlayerLocked = v
 												wait()
@@ -213,42 +214,70 @@ function StartAutofarm()
 			end
 			wait()
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
-		
+
 		wait(5)
 		ServerHop()
 	end))
 end
 
+coroutine.resume(coroutine.create(function()
+	while wait(3) do
+		game:GetService("VirtualUser"):Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+		wait(1)
+		game:GetService("VirtualUser"):Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+	end
+end))
+
 game:GetService("RunService").RenderStepped:Connect(function()
 	if Farming then
 		if (tick() - CheckTick) >= 1 then
 			TimeLeft = TimeLeft - 1
-			
+
 			if TimeLeft <= 0 then
 				ServerHop()
 			else
 				if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
-				    game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-					sayMessage("XR97 HAS NEVER LEFT THIS GAME!")
+					game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
+					sayMessage(Message)
 				end
-				
+
 				local Vals = {}
 				for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
 				for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then if not Hopped then Hopped = true ServerHop() end break end end
-				
+
 				CheckTick = tick()
 			end
 		end
-		
+
 		if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4)
+			PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4)
 			)
-			mouse1click()
+			if not workspace:FindFirstChild("Msg") then
+				local Msg = Instance.new("Hint")
+				Msg.Name = "Msg"
+				Msg.Parent = workspace
+				Msg.Text = "Target Is Nil"
+			end
+			if game:GetService("Players").LocalPlayer:GetMouse().Target then
+				if not workspace:FindFirstChild("Msg") then
+					local Msg = Instance.new("Hint")
+					Msg.Name = "Msg"
+					Msg.Parent = workspace
+					Msg.Text = "Target Is Not Nil"
+				else
+				    workspace.Msg.Text = "Target Is Not Nil"
+				end
+				if game:GetService("Players").LocalPlayer:GetMouse().Target:IsDescendantOf(PlayerLocked.Character) then
+				    workspace.Msg.Text = "Shooting"
+					mouse1press()
+					mouse1rel()
+				end
+			end
 		end
 	end
-	
+
 	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
 	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
 end)
