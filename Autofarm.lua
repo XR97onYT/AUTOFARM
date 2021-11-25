@@ -206,8 +206,11 @@ function StartAutofarm()
 
 											repeat
 												PlayerLocked = v
+												game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
+													PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)
+												)
 												if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
-												wait(.05)
+												wait(.03)
 											until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or v.NRPBS.Health.Value <= 0 or not v.Character or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 										end
 									end
@@ -279,9 +282,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
 		if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
-			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-			PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)
-			)
 			if not workspace:FindFirstChild("Msg") then
 				local Msg = Instance.new("Hint")
 				Msg.Name = "Msg"
