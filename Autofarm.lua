@@ -207,7 +207,7 @@ function StartAutofarm()
 											repeat
 												PlayerLocked = v
 												wait()
-											until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or v.NRPBS.Health.Value <= 0 or not v.Character or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false
+											until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or v.NRPBS.Health.Value <= 0 or not v.Character or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 										end
 									end
 								end
