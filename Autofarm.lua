@@ -220,9 +220,6 @@ function StartAutofarm()
 					end
 				end
 			end
-			local Vals = {}
-			for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
-			for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then if not Hopped then Hopped = true ServerHop() end break end end
 			wait(1)
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 
@@ -256,7 +253,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				ServerHop()
 			else
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-				CheckTick = tick()
+				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") or game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("odd") then ServerHop() else CheckTick = tick() end
 			end
 		end
 
