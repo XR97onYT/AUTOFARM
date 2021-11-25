@@ -112,6 +112,8 @@ function StartAutofarm()
 	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
 	-- lol infinite ammo, didn't feel like making my own script for that
 
+	repeat wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
+	
 	coroutine.resume(coroutine.create(function()
 		wait(2.5)
 
