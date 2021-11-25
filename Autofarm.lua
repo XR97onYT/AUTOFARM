@@ -21,7 +21,7 @@ function ServerHop()
 	end
 end
 
-coroutine.resume(coroutine.create(function()
+spawn(function()
 	while true do
 		if game:GetService("GuiService"):GetErrorMessage() ~= nil and game:GetService("GuiService"):GetErrorMessage() ~= "" then
 			ServerHop()
@@ -29,7 +29,7 @@ coroutine.resume(coroutine.create(function()
 		end
 		wait(1)
 	end
-end))
+end)
 
 if not game:IsLoaded() then
 	game.Loaded:Wait()
@@ -114,7 +114,7 @@ function StartAutofarm()
 
 	repeat wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
 	
-	coroutine.resume(coroutine.create(function()
+	spawn(function()
 		wait(2.5)
 
 		game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
@@ -190,9 +190,9 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
 		end
-	end))
+	end)
 
-	coroutine.resume(coroutine.create(function()
+	spawn(function()
 		repeat
 			if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 				for i,v in pairs(game:GetService("Players"):GetPlayers()) do
@@ -207,7 +207,7 @@ function StartAutofarm()
 											repeat
 												PlayerLocked = v
 												if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
-												wait()
+												wait(.05)
 											until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or v.NRPBS.Health.Value <= 0 or not v.Character or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 										end
 									end
@@ -217,31 +217,31 @@ function StartAutofarm()
 					end
 				end
 			end
-			wait()
+			wait(1)
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 
 		wait(5)
 		ServerHop()
-	end))
+	end)
 end
 
-coroutine.resume(coroutine.create(function()
+spawn((function()
 	while wait(3) do
 		game:GetService("VirtualUser"):Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 		wait(1)
 		game:GetService("VirtualUser"):Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 	end
-end))
+end)
 
-coroutine.resume(coroutine.create(function()
-	while wait() do
+spawn(function()
+	while wait(.05) do
 		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 		end
 	end
-end))
+end)
 
-game:GetService("RunService").Heartbeat:Connect(function()
+game:GetService("RunService").RenderStepped:Connect(function()
 	if Farming then
 		if (tick() - CheckTick) >= 1 then
 			TimeLeft = TimeLeft - 1
