@@ -270,7 +270,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				ServerHop()
 			else
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") or game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("odd") then ServerHop() else CheckTick = tick() end
+				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") or game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("odd") then ServerHop() else sayMessage(Message) CheckTick = tick() end
 			end
 		end
 
