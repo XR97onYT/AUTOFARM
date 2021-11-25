@@ -225,7 +225,7 @@ function StartAutofarm()
 	end)
 end
 
-spawn((function()
+spawn(function()
 	while wait(3) do
 		game:GetService("VirtualUser"):Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 		wait(1)
