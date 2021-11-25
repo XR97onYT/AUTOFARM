@@ -241,6 +241,23 @@ spawn(function()
 		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 		end
+			
+		local args = {
+			[1] = {
+				[1] = "createparticle",
+				[2] = "Blood",
+				[3] = game:GetService("ReplicatedStorage").Pilots.AcePilot.Humanoid,
+				[4] = Vector3.new(0, 0, 0),
+				[5] = Vector3.new(0, 0, 0),
+				[6] = game:GetService("ReplicatedStorage").Weapons.Musket,
+				[7] = false,
+				[8] = false,
+				[9] = true,
+				[10] = game:GetService("ReplicatedStorage").Sounds.Taunt3
+			}
+		}
+		
+		game:GetService("ReplicatedStorage").Events.RemoteEvent:FireServer(unpack(args))
 	end
 end)
 
