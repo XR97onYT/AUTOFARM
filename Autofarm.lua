@@ -220,6 +220,9 @@ function StartAutofarm()
 					end
 				end
 			end
+			local Vals = {}
+			for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
+			for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then if not Hopped then Hopped = true ServerHop() end break end end
 			wait(1)
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 
@@ -241,31 +244,6 @@ spawn(function()
 		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 		end
-			
-		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
-			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-			if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false then sayMessage(Message) end
-			local args = {
-				[1] = {
-				[1] = "createparticle",
-				[2] = "Blood",
-				[3] = game:GetService("ReplicatedStorage").Pilots.AcePilot.Humanoid,
-				[4] = Vector3.new(0, 0, 0),
-				[5] = Vector3.new(0, 0, 0),
-				[6] = game:GetService("ReplicatedStorage").Weapons.Musket,
-				[7] = false,
-				[8] = false,
-				[9] = true,
-				[10] = game:GetService("ReplicatedStorage").Sounds.Taunt3
-				}
-			}
-				
-			game:GetService("ReplicatedStorage").Events.RemoteEvent:FireServer(unpack(args))
-
-			local Vals = {}
-			for i,v in pairs(game.ReplicatedStorage:GetDescendants()) do if v.Name:lower():find("gamemode") then table.insert(Vals, v) end end
-			for i,v in pairs(Vals) do if v.Value:lower():find("odd") or v.Value:lower():find("hackula") then if not Hopped then Hopped = true ServerHop() end break end end
-		end
 	end
 end)
 
@@ -277,6 +255,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			if TimeLeft <= 0 then
 				ServerHop()
 			else
+				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				CheckTick = tick()
 			end
 		end
