@@ -108,11 +108,12 @@ function sayMessage(option)
 end
 
 function StartAutofarm()
+	repeat wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
+	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") or game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("odd") then ServerHop() return end
+	
 	Farming = true
 	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
 	-- lol infinite ammo, didn't feel like making my own script to modify the client's local variables, so I figure why not just use hackula's built in infinite ammo?
-
-	repeat wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
 	
 	spawn(function()
 		wait(2.5)
@@ -206,9 +207,6 @@ function StartAutofarm()
 
 											repeat
 												PlayerLocked = v
-												game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-													PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)
-												)
 												if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
 												wait(.03)
 											until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or v.NRPBS.Health.Value <= 0 or not v.Character or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
@@ -276,6 +274,11 @@ game:GetService("RunService").RenderStepped:Connect(function()
 
 		if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
+			
+			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
+				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)
+			)
+			
 			if game:GetService("Players").LocalPlayer:GetMouse().Target then
 				if game:GetService("Players").LocalPlayer:GetMouse().Target:IsDescendantOf(PlayerLocked.Character) then
 					mouse1press()
