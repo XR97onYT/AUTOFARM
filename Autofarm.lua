@@ -241,7 +241,7 @@ coroutine.resume(coroutine.create(function()
 	end
 end))
 
-game:GetService("RunService").RenderStepped:Connect(function()
+game:GetService("RunService").Heartbeat:Connect(function()
 	if Farming then
 		if (tick() - CheckTick) >= 1 then
 			TimeLeft = TimeLeft - 1
