@@ -109,7 +109,7 @@ end
 
 function StartAutofarm()
 	repeat wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
-	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") or game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("odd") then ServerHop() return end
+	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() return end
 	
 	Farming = true
 	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
@@ -268,7 +268,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				ServerHop()
 			else
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") or game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("odd") then ServerHop() else sayMessage(Message) CheckTick = tick() end
+				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() else sayMessage(Message) CheckTick = tick() end
 			end
 		end
 
