@@ -2,7 +2,7 @@
 	XRAF v3
 	Created by XR97
 	Description: An autofarm that was updated to versions 2 and 1, specifically looking at bypassing the new anti-cheat.
-	How It Works: Finds a player, teleports to them, raycasts down to detect if you're looking at a player, shoots, kills, repeat until game ends.
+	How It Works: Finds a player, teleports behind them, uses mouse.target to detect if you're looking at a player, shoots, kills, repeat until game ends.
 	Then server hop and repeat.
 ]]
 
