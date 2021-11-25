@@ -249,6 +249,21 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 					game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 					if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false then sayMessage(Message) end
+					local args = {
+					    [1] = {
+						[1] = "createparticle",
+						[2] = "Blood",
+						[3] = game:GetService("ReplicatedStorage").Pilots.AcePilot.Humanoid,
+						[4] = Vector3.new(0, 0, 0),
+						[5] = Vector3.new(0, 0, 0),
+						[6] = game:GetService("ReplicatedStorage").Weapons.Musket,
+						[7] = false,
+						[8] = false,
+						[9] = true,
+						[10] = game:GetService("ReplicatedStorage").Sounds.Taunt3
+					    }
+					}
+					game:GetService("ReplicatedStorage").Events.RemoteEvent:FireServer(unpack(args))
 				end
 
 				local Vals = {}
