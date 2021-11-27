@@ -272,17 +272,24 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			end
 		end
 
-		if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
+		if workspace:FindFirstChild("Map") and PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
 			
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)
 			)
 			
-			if game:GetService("Players").LocalPlayer:GetMouse().Target then
-				if game:GetService("Players").LocalPlayer:GetMouse().Target:IsDescendantOf(PlayerLocked.Character) then
-					mouse1press()
-					mouse1rel()
+			local RayParams = RaycastParams.new()
+			RayParams.FilterType = Enum.RaycastFilterType.Blacklist
+			RayParams.FilterDescendantsInstances = {workspace.CurrentCamera, game:GetService("Players").LocalPlayer.Character, workspace.Map.Ignore, workspace.Map.Clips}
+				
+			local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
+			local Player
+			
+			if Result and Result.Instance then
+				if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
+					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+					game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				end
 			end
 		end
