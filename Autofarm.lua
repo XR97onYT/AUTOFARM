@@ -289,7 +289,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			if Result and Result.Instance then
 				if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
 					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-					game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				end
 			end
 		end
