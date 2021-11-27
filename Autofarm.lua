@@ -60,7 +60,7 @@ local Farming = false
 local Hopped = false
 local TimeLeft = 30
 local CheckTick = tick()
-local Message = "Good Job making your anticheat xonae!"
+local Message = getfenv().Message or "Good Job making your anticheat xonae!"
 local PlayerLocked
 
 function DetectPlayer()
