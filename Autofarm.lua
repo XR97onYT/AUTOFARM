@@ -276,7 +276,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
 			
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)
+				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(1.5, 0, 6)
 			)
 			
 			local RayParams = RaycastParams.new()
