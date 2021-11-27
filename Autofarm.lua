@@ -288,7 +288,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
 			local Player
 			
-			if PlayerLocked and Result and Result.Instance then
+			if Result and Result.Instance then
 				if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
 					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				end
