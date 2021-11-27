@@ -278,6 +278,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(1.5, 0, 6)
 			)
+				
+			if (game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - PlayerLockedOn.Character.HumanoidRootPart.Position).Magnitude > 20 then PlayerLocked = nil end
 			
 			local RayParams = RaycastParams.new()
 			RayParams.FilterType = Enum.RaycastFilterType.Blacklist
@@ -286,7 +288,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
 			local Player
 			
-			if Result and Result.Instance then
+			if PlayerLocked and Result and Result.Instance then
 				if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
 					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				end
