@@ -59,7 +59,7 @@ mouse1click()
 local Farming = false
 local Hopped = false
 local TimeLeft = 30
-local TurnBack = 5
+local TurnBack = 4
 local CheckTick = tick()
 local Message = getfenv().Message or "Raided by XR97's autofarm! by XR97"
 local PlayerLocked
@@ -205,7 +205,7 @@ function StartAutofarm()
 								if v.Status.Team.Value ~= "Spectator" then
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										TimeLeft = 25
-										TurnBack = 5
+										TurnBack = 4
 										Back = true
 										repeat
 											PlayerLocked = v
