@@ -204,9 +204,7 @@ function StartAutofarm()
 								if v.Status.Team.Value ~= "Spectator" then
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										TimeLeft = 25
-										game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3))
-										wait(0.2)
-										repeat game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) wait(.01) until not v or not v.Character or v.NRPBS.Health.Value <= 0
+										repeat game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)) wait(0.2) game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) wait(.01) until not v or not v.Character or v.NRPBS.Health.Value <= 0
 									end
 								end
 							end
