@@ -255,16 +255,18 @@ spawn(function()
 	end
 end)
 
-game:GetService("RunService").Heartbeat:Connect(function()
-	if Farming then
-		if (tick() - CheckTick) >= 1 then
-			TimeLeft = TimeLeft - 1
+spawn(function()
+	while wait() do
+		if Farming then
+			if (tick() - CheckTick) >= 1 then
+				TimeLeft = TimeLeft - 1
 
-			if TimeLeft <= 0 then
-				ServerHop()
-			else
-				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() else sayMessage(Message) CheckTick = tick() end
+				if TimeLeft <= 0 then
+					ServerHop()
+				else
+					game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
+					if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() else sayMessage(Message) CheckTick = tick() end
+				end
 			end
 		end
 	end
