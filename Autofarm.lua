@@ -290,7 +290,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
 			if Back then num = 6 else num = -6 end
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(1.5, 0, num)
+				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, num)
 			)
 			
 			local RayParams = RaycastParams.new()
