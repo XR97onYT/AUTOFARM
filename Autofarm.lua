@@ -195,7 +195,6 @@ function StartAutofarm()
 
 	spawn(function()
 		repeat
-			local canKill = {}
 			if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 				for i,v in pairs(game:GetService("Players"):GetPlayers()) do
 					if v ~= game:GetService("Players").LocalPlayer then
@@ -203,26 +202,17 @@ function StartAutofarm()
 							if v.NRPBS.Health.Value > 0 then
 								if v.Status.Team.Value ~= "Spectator" then
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
-										table.insert(canKill, v)
+										repeat
+											PlayerLocked = v
+											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
+											wait(.1)
+										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 									end
 								end
 							end
 						end
 					end
 				end
-				for i,v in pairs(canKill) do
-					if v.Character and v.NRPBS.Health.Value > 0 and v.Status.Team.Value ~= "Spectator" and v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
-						if v.Status.Alive.Value == true then
-							TimeLeft = 25
-							repeat
-								PlayerLocked = v
-								if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
-								wait(.1)
-							until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
-						end
-					end
-				end
-				if game.Players.LocalPlayer.Status.Team.Value == "TRC" then game.ReplicatedStorage.Events.JoinTeam:FireServer("TBC") elseif game.Players.LocalPlayer.Status.Team.Value == "TBC" then game.ReplicatedStorage.Events.JoinTeam:FireServer("TRC") end
 			end
 			wait(1)
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
