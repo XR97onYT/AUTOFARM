@@ -60,7 +60,7 @@ local Farming = false
 local Hopped = false
 local TimeLeft = 30
 local CheckTick = tick()
-local Message = getfenv().Message or "Someone in AHL is spying for me by sending screenshots lol"
+local Message = getfenv().Message or "Good Job on making your anticheat xonae!
 local PlayerLocked
 
 function DetectPlayer()
