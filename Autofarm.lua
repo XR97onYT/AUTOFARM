@@ -192,8 +192,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
 		end
 	end)
-	
-	
+
 	spawn(function()
 		repeat
 			if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
@@ -204,7 +203,11 @@ function StartAutofarm()
 								if v.Status.Team.Value ~= "Spectator" then
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										TimeLeft = 25
-										repeat game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)) wait(0.2) game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) wait(.01) until not v or not v.Character or v.NRPBS.Health.Value <= 0
+										repeat
+											PlayerLocked = v
+											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
+											wait(.1)
+										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 									end
 								end
 							end
@@ -254,25 +257,48 @@ spawn(function()
 end)
 
 spawn(function()
-	while wait() do
+	while wait(1) do
 		if Farming then
-			if (tick() - CheckTick) >= 1 then
-				TimeLeft = TimeLeft - 1
+			TimeLeft = TimeLeft - 1
 
-				if TimeLeft <= 0 then
-					ServerHop()
-				else
-					game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-					if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then 
-						ServerHop() 
-						break
-					end
-					sayMessage(Message)
-					CheckTick = tick() 
+			if TimeLeft <= 0 then
+				ServerHop()
+				break
+			else
+				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
+				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() break else sayMessage(Message) CheckTick = tick() end
+			end
+		end
+	end
+end)
+
+game:GetService("RunService").RenderStepped:Connect(function()
+	if Farming then
+		if workspace:FindFirstChild("Map") and PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
+			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
+			
+			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
+				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(1.5, 0, 6)
+			)
+			
+			local RayParams = RaycastParams.new()
+			RayParams.FilterType = Enum.RaycastFilterType.Blacklist
+			RayParams.FilterDescendantsInstances = {workspace.CurrentCamera, game:GetService("Players").LocalPlayer.Character, workspace.Map.Ignore, workspace.Map.Clips}
+				
+			local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
+			local Player
+			
+			if Result and Result.Instance then
+				if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
+					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				end
 			end
 		end
 	end
+	
+	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil end
+	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
+	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
 end)
 
 StartAutofarm()
