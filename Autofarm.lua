@@ -271,7 +271,7 @@ spawn(function()
 						break
 					end
 					sayMessage(Message)
-					CheckTick = tick() end
+					CheckTick = tick() 
 				end
 			end
 		end
