@@ -214,6 +214,8 @@ function StartAutofarm()
 											TurnBack = TurnBack - 0.1
 											if TurnBack <= 0 then
 												Back = false
+											elseif TurnBack <= -4 then
+												break
 											end
 										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 									end
