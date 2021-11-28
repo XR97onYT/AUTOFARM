@@ -59,9 +59,11 @@ mouse1click()
 local Farming = false
 local Hopped = false
 local TimeLeft = 30
+local TurnBack = 5
 local CheckTick = tick()
-local Message = getfenv().Message or "Xonae. Give me purple team on my account Hax892 then I'll stop."
+local Message = getfenv().Message or "Raided by XR97's autofarm! by XR97"
 local PlayerLocked
+local Back = true
 
 function DetectPlayer()
 	local Blacklist = {workspace.CurrentCamera}
@@ -203,10 +205,16 @@ function StartAutofarm()
 								if v.Status.Team.Value ~= "Spectator" then
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										TimeLeft = 25
+										TurnBack = 5
+										Back = true
 										repeat
 											PlayerLocked = v
 											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
 											wait(.1)
+											TurnBack = TurnBack - 0.1
+											if TurnBack <= 0 then
+												Back = false
+											end
 										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 									end
 								end
@@ -271,14 +279,14 @@ spawn(function()
 		end
 	end
 end)
-
+local num = 6
 game:GetService("RunService").RenderStepped:Connect(function()
 	if Farming then
 		if workspace:FindFirstChild("Map") and PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
-			
+			if Back then num = 6 else num = -6 end
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(1.5, 0, 6)
+				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(1.5, 0, num)
 			)
 			
 			local RayParams = RaycastParams.new()
