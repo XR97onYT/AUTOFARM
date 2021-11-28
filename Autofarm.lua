@@ -192,7 +192,8 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
 		end
 	end)
-
+	
+	
 	spawn(function()
 		repeat
 			if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
@@ -203,11 +204,9 @@ function StartAutofarm()
 								if v.Status.Team.Value ~= "Spectator" then
 									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										TimeLeft = 25
-										repeat
-											PlayerLocked = v
-											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
-											wait(.1)
-										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
+										game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(v.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3))
+										wait(0.2)
+										game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox)
 									end
 								end
 							end
