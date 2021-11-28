@@ -265,7 +265,12 @@ spawn(function()
 					ServerHop()
 				else
 					game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-					if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() else sayMessage(Message) CheckTick = tick() end
+					if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then 
+						ServerHop() 
+						break
+					end
+					sayMessage(Message)
+					CheckTick = tick() end
 				end
 			end
 		end
