@@ -203,7 +203,7 @@ function StartAutofarm()
 						if v.Character then
 							if v.NRPBS.Health.Value > 0 then
 								if v.Status.Team.Value ~= "Spectator" then
-									if v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
+									if v.Character:FindFirstChild("Spawned") and v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
 										TimeLeft = 25
 										TurnBack = 4
 										Back = true
@@ -217,7 +217,7 @@ function StartAutofarm()
 											elseif TurnBack <= -4 then
 												break
 											end
-										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
+										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or not v.Character:FindFirstChild("Spawned") or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 									end
 								end
 							end
