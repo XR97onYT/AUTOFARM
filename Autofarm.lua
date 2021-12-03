@@ -286,13 +286,14 @@ spawn(function()
 	end
 end)
 local num = 6
+local up = 0
 game:GetService("RunService").RenderStepped:Connect(function()
 	if Farming then
 		if workspace:FindFirstChild("Map") and PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
-			if Back then num = 6 else num = -6 end
+			if Back then num = 6 up = 0 else num = -2 up = 4 end
 			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, num)
+				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, up, num)
 			)
 			
 			local RayParams = RaycastParams.new()
