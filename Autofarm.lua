@@ -35,22 +35,19 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
-local gmt = getrawmetatable(game)
-local index = gmt.__index
-setreadonly(gmt, false)
+local OldInd = nil
 
-gmt.__index = function(item, property)
-	if item == "HumanoidRootPart" or item == "UpperTorso" or item == "LowerTorso" or item == "PrimaryPart" then
-		if property == "Position" or property == "Velocity" then
+OldInd = hookmetaamethod(game, "__index", newcclosure(function(...)
+	local Self,Key = ...
+	if not checkcaller() and Self == game:GetService("Players").LocalPlayer.Character.HumanoidRootPart or Self == game:GetService("Players").LocalPlayer.Character.UpperTorso or Self == game:GetService("Players").LocalPlayer.Character.LowerTorso or Self == game:GetService("Players").LocalPlayer.Character.PrimaryPart then
+		if Key == "Position" or Key == "Velocity" then
 			return Vector3.new(0, 0, 0)
-		elseif property == "CFrame" then
+		elseif Key == "CFrame" then
 			return CFrame.new(0, 0, 0)
 		end
 	end
-	return index(item, property)
-end
-
-setreadonly(gmt, true)
+	return OldInd(...)
+end))
 
 mousemoveabs(50, 50)
 wait(0.5)
