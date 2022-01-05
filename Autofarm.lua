@@ -35,19 +35,7 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
-local OldInd = nil
 
-OldInd = hookmetamethod(game, "__index", newcclosure(function(...)
-	local Self,Key = ...
-	if not checkcaller() and Self == game:GetService("Players").LocalPlayer.Character.HumanoidRootPart or Self == game:GetService("Players").LocalPlayer.Character.UpperTorso or Self == game:GetService("Players").LocalPlayer.Character.LowerTorso or Self == game:GetService("Players").LocalPlayer.Character.PrimaryPart then
-		if Key == "Position" or Key == "Velocity" then
-			return Vector3.new(0, 0, 0)
-		elseif Key == "CFrame" then
-			return CFrame.new(0, 0, 0)
-		end
-	end
-	return OldInd(...)
-end))
 
 mousemoveabs(50, 50)
 wait(0.5)
@@ -58,7 +46,7 @@ local Hopped = false
 local TimeLeft = 30
 local TurnBack = 4
 local CheckTick = tick()
-local Message = getfenv().Message or "Raided by XR97's autofarm! by XR97"
+local Message = getfenv().Message or "YOU CANNOT LOSE. YOU CANNOT WIN. YOU'VE BEEN B0T ROLLED AND THAT IS THE FACT."
 local PlayerLocked
 local Back = true
 
@@ -243,23 +231,6 @@ spawn(function()
 		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
 			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 		end
-			
-		local args = {
-			[1] = {
-				[1] = "createparticle",
-				[2] = "Blood",
-				[3] = game:GetService("ReplicatedStorage").Pilots.AcePilot.Humanoid,
-				[4] = Vector3.new(0, 0, 0),
-				[5] = Vector3.new(0, 0, 0),
-				[6] = game:GetService("ReplicatedStorage").Weapons.Musket,
-				[7] = false,
-				[8] = false,
-				[9] = true,
-				[10] = game:GetService("ReplicatedStorage").Sounds.Taunt3
-			}
-		}
-		
-		game:GetService("ReplicatedStorage").Events.RemoteEvent:FireServer(unpack(args))
 	end
 end)
 
