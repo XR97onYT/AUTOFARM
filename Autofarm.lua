@@ -37,7 +37,7 @@ end
 
 local OldInd = nil
 
-OldInd = hookmetaamethod(game, "__index", newcclosure(function(...)
+OldInd = hookmetamethod(game, "__index", newcclosure(function(...)
 	local Self,Key = ...
 	if not checkcaller() and Self == game:GetService("Players").LocalPlayer.Character.HumanoidRootPart or Self == game:GetService("Players").LocalPlayer.Character.UpperTorso or Self == game:GetService("Players").LocalPlayer.Character.LowerTorso or Self == game:GetService("Players").LocalPlayer.Character.PrimaryPart then
 		if Key == "Position" or Key == "Velocity" then
