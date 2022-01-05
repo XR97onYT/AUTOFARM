@@ -214,7 +214,7 @@ function StartAutofarm()
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 
 		wait(5)
-		StartAutofarm()
+		ServerHop()
 	end)
 end
 
