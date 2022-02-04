@@ -123,6 +123,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
+			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
 		end
 
 		wait(1.25)
@@ -135,6 +136,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
+			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
 		end
 
 		wait(1.25)
@@ -147,6 +149,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
+			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
 		end
 
 		wait(1.25)
@@ -159,6 +162,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
+			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
 		end
 
 		wait(1.25)
@@ -171,6 +175,7 @@ function StartAutofarm()
 			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
+			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
 		end
 	end)
 
