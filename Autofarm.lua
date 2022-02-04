@@ -106,7 +106,6 @@ function StartAutofarm()
 		wait(2.5)
 
 		game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
-		game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 
 		game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
 		game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
@@ -118,7 +117,6 @@ function StartAutofarm()
 
 		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
 			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
-			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 
 			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
@@ -131,7 +129,6 @@ function StartAutofarm()
 
 		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
 			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC")
-			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 
 			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
@@ -144,7 +141,6 @@ function StartAutofarm()
 
 		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
 			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TGC")
-			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 
 			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
@@ -157,7 +153,6 @@ function StartAutofarm()
 
 		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
 			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TYC")
-			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 
 			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
@@ -170,7 +165,6 @@ function StartAutofarm()
 
 		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
 			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("Random")
-			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
 
 			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
 			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
