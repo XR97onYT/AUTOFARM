@@ -24,7 +24,7 @@ end
 spawn(function()
 	while true do
 		if game:GetService("GuiService"):GetErrorMessage() ~= nil and game:GetService("GuiService"):GetErrorMessage() ~= "" then
-			ServerHop()
+			--ServerHop()
 			break
 		end
 		wait(1)
