@@ -1,5 +1,5 @@
 --[[
-	XRAF v3
+	XRAF v3.3 (Update: Fixed a little thing that bans you :D GOod job XONAE)
 	Created by XR97
 	Description: An autofarm that was updated to versions 2 and 1, specifically looking at bypassing the new anti-cheat.
 	How It Works: Finds a player, teleports behind them, uses mouse.target to detect if you're looking at a player, shoots, kills, repeat until game ends.
@@ -24,7 +24,7 @@ end
 spawn(function()
 	while true do
 		if game:GetService("GuiService"):GetErrorMessage() ~= nil and game:GetService("GuiService"):GetErrorMessage() ~= "" then
-			--ServerHop()
+			ServerHop()
 			break
 		end
 		wait(1)
@@ -90,7 +90,7 @@ end
 function sayMessage(option)
 	if game.Players.LocalPlayer.Status.Team.Value ~= "Spectator" then
 		local Message = option
-		game.ReplicatedStorage.Events.PlayerChatted:FireServer(Message, false, true, false)
+		game.ReplicatedStorage.Events.PlayerChatted:FireServer("Trolling42", Message, false, false, true)
 	end
 end
 
