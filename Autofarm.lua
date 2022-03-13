@@ -41,6 +41,8 @@ mousemoveabs(50, 50)
 wait(0.5)
 mouse1click()
 
+local N = game:GetService("VirtualInputManager")    
+
 local Farming = false
 local Hopped = false
 local TimeLeft = 30
@@ -194,7 +196,10 @@ function StartAutofarm()
 										Back = true
 										repeat
 											PlayerLocked = v
-											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") and v.Character:FindFirstChild("Hitbox") then game:GetService("ReplicatedStorage").Events.FallDamage:FireServer(100, v.Character.Hitbox) end
+											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") and v.Character:FindFirstChild("Hitbox") then
+												N:SendKeyEvent(true, 51, false, game)
+												N:SendKeyEvent(false, 51, false, game)
+											end
 											wait(.1)
 											TurnBack = TurnBack - 0.1
 											if TurnBack <= 0 then
