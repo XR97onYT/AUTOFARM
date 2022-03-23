@@ -10,7 +10,7 @@ function ServerHop()
 	local Servers = {}
 	local URL = "https://games.roblox.com/v1/games/286090429/servers/Public?limit=100"
 
-	for index, server in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(URL)).data) do
+	for index, server in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGet(URL)).data) do
 		if type(server) == "table" and server.playing <= 15 and server.id ~= game.JobId then
 			table.insert(Servers, server.id)
 		end
@@ -34,12 +34,6 @@ end)
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
-
-
-
-mousemoveabs(50, 50)
-wait(0.5)
-mouse1click()
 
 local N = game:GetService("VirtualInputManager")    
 
