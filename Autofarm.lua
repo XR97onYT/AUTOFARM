@@ -8,7 +8,7 @@
 
 function ServerHop()
 	local Servers = {}
-	local URL = "https://games.roblox.com/v1/games/286090429/servers/Public?sortOrder=Asc&limit=100"
+	local URL = "https://games.roblox.com/v1/games/286090429/servers/Public&limit=100"
 
 	for index, server in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(URL)).data) do
 		if type(server) == "table" and server.playing <= 15 and server.id ~= game.JobId then
