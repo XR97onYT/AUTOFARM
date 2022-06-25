@@ -249,7 +249,9 @@ spawn(function()
 					ServerHop() 
 					break 
 				end
-				sayMessage(Message)
+				if getfenv().MessageSpam == true then
+						sayMessage(message)
+				end
 			end
 		end
 	end
