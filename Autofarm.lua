@@ -278,7 +278,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
 			if Back then num = 6 up = 0 else num = -2 up = 4 end
 			
-			
 			local RayParams = RaycastParams.new()
 			RayParams.FilterType = Enum.RaycastFilterType.Blacklist
 			RayParams.FilterDescendantsInstances = {workspace.CurrentCamera, game:GetService("Players").LocalPlayer.Character, workspace.Map.Ignore, workspace.Map.Clips}
