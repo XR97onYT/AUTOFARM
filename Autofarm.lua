@@ -35,6 +35,20 @@ if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
 
+local mt = getrawmetatable(game)
+local onc = mt.__namecall
+local index = mt.__index
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(self, ...)
+    local a = {...}
+    nm = getnamecallmethod()
+    if tostring(NamecallMethod) == "FindPartOnRayWithIgnoreList" then
+        table.insert(a[2], workspace.Map)
+    end
+    return onc(self,...)
+end)
+setreadonly(mt, true)
+
 local N = game:GetService("VirtualInputManager")    
 
 local Farming = false
@@ -263,9 +277,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		if workspace:FindFirstChild("Map") and PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 			workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, PlayerLocked.Character.HeadHB.Position)
 			if Back then num = 6 up = 0 else num = -2 up = 4 end
-			game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, up, num)
-			)
+			
 			
 			local RayParams = RaycastParams.new()
 			RayParams.FilterType = Enum.RaycastFilterType.Blacklist
