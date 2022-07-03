@@ -42,7 +42,7 @@ setreadonly(mt, false)
 mt.__namecall = newcclosure(function(self, ...)
     local a = {...}
     nm = getnamecallmethod()
-    if tostring(NamecallMethod) == "FindPartOnRayWithIgnoreList" then
+    if tostring(nm) == "FindPartOnRayWithIgnoreList" then
         table.insert(a[2], workspace.Map)
     end
     return onc(self,...)
