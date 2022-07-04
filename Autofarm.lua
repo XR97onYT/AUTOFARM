@@ -60,6 +60,7 @@ spawn(function()
     end 
 end)
 
+local BB = require(game:GetService("ReplicatedStorage").Modules.BitBuffer)
 local N = game:GetService("VirtualInputManager")    
 
 local Farming = false
