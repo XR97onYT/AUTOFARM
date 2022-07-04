@@ -264,7 +264,7 @@ spawn(function()
 			else
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-				game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" then 
+				if game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" then 
 					ServerHop() 
 					break 
 				end
@@ -323,5 +323,4 @@ game:GetService("RunService").RenderStepped:Connect(function()
 	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
 	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
 end)
-
 StartAutofarm()
