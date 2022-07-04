@@ -1,6 +1,10 @@
-if not game:IsLoaded() then
-	game.Loaded:Wait()
-end
+--[[
+	XRAF v4
+	Created by XR97
+	Description: An autofarm that was updated to versions 2 and 1, specifically looking at bypassing the new anti-cheat.
+	How It Works: Finds a player, teleports camera to them, uses raycast to detect if you're looking at a player, shoots, kills, repeat until game ends.
+	Then server hop and repeat.
+]]
 
 function ServerHop()
 	local Servers = {}
@@ -27,12 +31,9 @@ spawn(function()
 	end
 end)
 
-local ping = 32 
-spawn(function()
-    while wait(1) do 
-        ping = math.random(30, 70)
-    end 
-end)
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
 
 local mt = getrawmetatable(game)
 local onc = mt.__namecall
@@ -51,6 +52,13 @@ mt.__namecall = newcclosure(function(self, ...)
     return onc(self,...)
 end)
 setreadonly(mt, true)
+
+local ping = 32 
+spawn(function()
+    while wait(1) do 
+        ping = math.random(30, 70)
+    end 
+end)
 
 local N = game:GetService("VirtualInputManager")    
 
@@ -112,7 +120,6 @@ function StartAutofarm()
 	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() return end
 	
 	Farming = true
-	game.ReplicatedStorage.wkspc.TimeScale.Value = 10
 	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
 	-- lol infinite ammo, didn't feel like making my own script to modify the client's local variables, so I figure why not just use hackula's built in infinite ammo?
 	
@@ -256,11 +263,13 @@ spawn(function()
 			else
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-				if game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" then 
+				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then 
 					ServerHop() 
 					break 
 				end
-				sayMessage(message)
+				if getfenv().MessageSpam == true then
+						sayMessage(message)
+				end
 			end
 		end
 	end
@@ -274,25 +283,34 @@ local random2 = math.random(0, 3)
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Ping.Value = ping
 	if Farming then
-		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then\
-		workspace.CameraType = Enum.CameraType.Scriptable
+		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         	if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 				if game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Knife") then
+				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 				    workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLocked.Character.HeadHB.Position)
 				    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 6)
 				    )
 				else
-				    workspace.CurrentCamera.CFrame = CFrame.new(PlayerLocked.Character.Head.Position + Vector3.new(2, 2, 2), PlayerLocked.Character.HeadHB.Position)
+				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+				    workspace.CurrentCamera.CFrame = CFrame.new(PlayerLocked.Character.HeadHB.Position + Vector3.new(random1, random2, random3), PlayerLocked.Character.HeadHB.Position - Vector3.new(0, 0.5, 0))
 				end
+				if (tick() - switchTick) >= 0.5 then
+		        		random1 = math.random(-2, 2)
+		        		random2 = math.random(0, 3)
+		        		random3 = math.random(-2, 2)
+		        		switchTick = tick()
+	        		end
 
-	
 				game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+
+			end
 		end
 	end
 	
-	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame) end
+	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil end
 	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
 	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
 end)
+
 StartAutofarm()
