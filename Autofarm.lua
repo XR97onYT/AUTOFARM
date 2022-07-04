@@ -274,39 +274,20 @@ local random2 = math.random(0, 3)
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Ping.Value = ping
 	if Farming then
-		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
+		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then\
+		workspace.CameraType = Enum.CameraType.Scriptable
         	if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 				if game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Knife") then
-				    workspace.CameraType = Enum.CameraType.Custom
-				    workspace.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
 				    workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLocked.Character.HeadHB.Position)
 				    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 6)
 				    )
 				else
-				    workspace.CameraType = Enum.CameraType.Scriptable
 				    workspace.CurrentCamera.CFrame = CFrame.new(PlayerLocked.Character.Head.Position + Vector3.new(2, 2, 2), PlayerLocked.Character.HeadHB.Position)
 				end
-				if (tick() - switchTick) >= 0.5 then
-		        	random1 = math.random(-2, 2)
-		        	random2 = math.random(0, 3)
-		        	random3 = math.random(-2, 2)
-		        	switchTick = tick()
-	        	end
 
-				local RayParams = RaycastParams.new()
-				RayParams.FilterType = Enum.RaycastFilterType.Blacklist
-				RayParams.FilterDescendantsInstances = {workspace.CurrentCamera, game:GetService("Players").LocalPlayer.Character, workspace.Map}
-				
-				local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
-				local Player
-			
-				if Result and Result.Instance then
-					if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
-						game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-					end
-				end
-			end
+	
+				game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 		end
 	end
 	
