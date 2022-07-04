@@ -44,7 +44,7 @@ mt.__namecall = newcclosure(function(self, ...)
     if tostring(nm) == "FindPartOnRayWithIgnoreList" then
         table.insert(arg[2], workspace.Map)
     end
-    if tostring(nm) == "FireServer" and tostring(self) == "UpdatePing" and Farming then
+    if tostring(nm) == "FireServer" and tostring(self) == "UpdatePing" and Farming and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         arg[1] = 2000
         return onc(self, unpack(arg))
     end
