@@ -285,8 +285,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				    )
 				else
 				    workspace.CameraType = Enum.CameraType.Scriptable
-				    local PositionCAM = (PlayerLocked.Character.Head.CFrame * CFrame.new(0, 0, 4)).p
-				    workspace.CurrentCamera.CFrame = CFrame.new(PositionCAM, PlayerLocked.Character.HeadHB.Position)
+				    workspace.CurrentCamera.CFrame = CFrame.new(PlayerLocked.Character.Head.Position + Vector3.new(2, 2, 2), PlayerLocked.Character.HeadHB.Position)
 				end
 				if (tick() - switchTick) >= 0.5 then
 		        	random1 = math.random(-2, 2)
