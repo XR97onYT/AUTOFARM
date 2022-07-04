@@ -27,6 +27,13 @@ spawn(function()
 	end
 end)
 
+local ping = 32 
+spawn(function()
+    while wait(1) do 
+        ping = math.random(30, 70)
+    end 
+end)
+
 local mt = getrawmetatable(game)
 local onc = mt.__namecall
 local index = mt.__index
@@ -37,20 +44,13 @@ mt.__namecall = newcclosure(function(self, ...)
     if tostring(nm) == "FindPartOnRayWithIgnoreList" then
         table.insert(arg[2], workspace.Map)
     end
-    if tostring(nm) == "FireServer" and tostring(self) == "UpdatePing" then
+    if tostring(nm) == "FireServer" and tostring(self) == "UpdatePing" and Farming then
         arg[1] = 2000
         return onc(self, unpack(arg))
     end
     return onc(self,...)
 end)
 setreadonly(mt, true)
-
-local ping = 32 
-spawn(function()
-    while wait(1) do 
-        ping = math.random(30, 70)
-    end 
-end)
 
 local N = game:GetService("VirtualInputManager")    
 
