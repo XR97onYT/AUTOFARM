@@ -309,7 +309,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		end
 	end
 	
-	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil end
+	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil game:GetService("VirtualUser"):Button1Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame) end
 	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
 	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
 end)
