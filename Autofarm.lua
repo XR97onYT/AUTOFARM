@@ -283,7 +283,6 @@ local random2 = math.random(0, 3)
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Ping.Value = ping
 	if Farming then
-		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         	if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 				if game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Knife") then
 				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
@@ -291,9 +290,11 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 6)
 				    )
+					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				else
 				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 				    workspace.CurrentCamera.CFrame = CFrame.new(PlayerLocked.Character.HeadHB.Position + Vector3.new(random1, random2, random3), PlayerLocked.Character.HeadHB.Position - Vector3.new(0, 0.5, 0))
+					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				end
 				if (tick() - switchTick) >= 0.5 then
 		        		random1 = math.random(-2, 2)
@@ -301,10 +302,6 @@ game:GetService("RunService").RenderStepped:Connect(function()
 		        		random3 = math.random(-2, 2)
 		        		switchTick = tick()
 	        		end
-
-				game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-
-			end
 		end
 	end
 	
