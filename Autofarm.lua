@@ -292,9 +292,19 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				    )
 					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				else
-				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-				    workspace.CurrentCamera.CFrame = CFrame.new(PlayerLocked.Character.HeadHB.Position + Vector3.new(random1, random2, random3), PlayerLocked.Character.HeadHB.Position - Vector3.new(0, 0.5, 0))
-					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+				    local TEST = BB()
+				    TEST.writeString(game.Players.LocalPlayer.NRPBS.EquippedTool.Value)
+				    TEST.writeUnsigned(2, 1)
+				    TEST.writeUnsigned(2, 0)
+					TEST.writeInt8(0)
+					TEST.writeFloat16(0)
+					TEST.writeInt8(1)
+					TEST.writeUnsigned(1, 0)
+					TEST.writeUnsigned(1, 0)
+					TEST.writeVector3(game.Players.LocalPlayer.Character.Head.Position)
+					TEST.writeVector3(PlayerLocked.Character.Head.Position)
+
+					game.ReplicatedStorage.Events["\226\128\139HitPart"]:FireServer(PlayerLocked.Character.HeadHB, TEST.dumpString(), "swaggg");
 				end
 				if (tick() - switchTick) >= 0.5 then
 		        		random1 = math.random(-2, 2)
