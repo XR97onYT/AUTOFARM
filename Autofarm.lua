@@ -1,10 +1,6 @@
---[[
-	XRAF v4
-	Created by XR97
-	Description: An autofarm that was updated to versions 2 and 1, specifically looking at bypassing the new anti-cheat.
-	How It Works: Finds a player, teleports camera to them, uses raycast to detect if you're looking at a player, shoots, kills, repeat until game ends.
-	Then server hop and repeat.
-]]
+if not game:IsLoaded() then
+	game.Loaded:Wait()
+end
 
 function ServerHop()
 	local Servers = {}
@@ -30,10 +26,6 @@ spawn(function()
 		wait(1)
 	end
 end)
-
-if not game:IsLoaded() then
-	game.Loaded:Wait()
-end
 
 local mt = getrawmetatable(game)
 local onc = mt.__namecall
