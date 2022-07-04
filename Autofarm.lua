@@ -278,14 +278,14 @@ game:GetService("RunService").RenderStepped:Connect(function()
         	if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 				if game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Knife") then
 				    workspace.CameraType = Enum.CameraType.Custom
-				    workspace.CameraSubject = game.Players.LocalPlayer.HumanoidRootPart
+				    workspace.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
 				    workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLocked.Character.HeadHB.Position)
 				    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
 				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 6)
 				    )
 				else
 				    workspace.CameraType = Enum.CameraType.Custom
-				    workspace.CameraSubject = PlayerLocked.Character.Humanoid
+				    workspace.CameraSubject = PlayerLocked.Character.Head
 				    workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLocked.Character.HeadHB.Position)
 				end
 				if (tick() - switchTick) >= 0.5 then
