@@ -264,7 +264,7 @@ spawn(function()
 			else
 				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
 				game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then 
+				game:GetService("ReplicatedStorage").wkspc.lastmap.Value == "Street Corner" then 
 					ServerHop() 
 					break 
 				end
