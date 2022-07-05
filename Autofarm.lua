@@ -60,7 +60,6 @@ spawn(function()
     end 
 end)
 
-local BB = require(game:GetService("ReplicatedStorage").Modules.BitBuffer)
 local N = game:GetService("VirtualInputManager")    
 
 local Farming = false
@@ -121,6 +120,7 @@ function StartAutofarm()
 	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() return end
 	
 	Farming = true
+	game.ReplicatedStorage.wkspc.TimeScale.Value = 15
 	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
 	-- lol infinite ammo, didn't feel like making my own script to modify the client's local variables, so I figure why not just use hackula's built in infinite ammo?
 	
@@ -284,35 +284,38 @@ local random2 = math.random(0, 3)
 game:GetService("RunService").RenderStepped:Connect(function()
     game.Players.LocalPlayer.Ping.Value = ping
 	if Farming then
+		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
         	if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
 				if game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Knife") then
 				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
 				    workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLocked.Character.HeadHB.Position)
 				    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 6)
+				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 4)
 				    )
-					game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 				else
-				    local TEST = BB()
-				    TEST.writeString(game.Players.LocalPlayer.NRPBS.EquippedTool.Value)
-				    TEST.writeUnsigned(2, 1)
-				    TEST.writeUnsigned(2, 0)
-					TEST.writeInt8(0)
-					TEST.writeFloat16(0)
-					TEST.writeInt8(1)
-					TEST.writeUnsigned(1, 0)
-					TEST.writeUnsigned(1, 0)
-					TEST.writeVector3(game.Players.LocalPlayer.Character.Head.Position)
-					TEST.writeVector3(PlayerLocked.Character.Head.Position)
-
-					game.ReplicatedStorage.Events["\226\128\139HitPart"]:FireServer(PlayerLocked.Character.HeadHB, TEST.dumpString(), "swaggg");
+				    workspace.CurrentCamera.CameraSubject = PlayerLocked.Character.Head
+				    workspace.CurrentCamera.CFrame = CFrame.new((PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)).Position, PlayerLocked.Character.Head.Position + Vector3.new(0, .3, 0))
 				end
 				if (tick() - switchTick) >= 0.5 then
-		        		random1 = math.random(-2, 2)
-		        		random2 = math.random(0, 3)
-		        		random3 = math.random(-2, 2)
-		        		switchTick = tick()
-	        		end
+		        	random1 = math.random(-2, 2)
+		        	random2 = math.random(0, 3)
+		        	random3 = math.random(-2, 2)
+		        	switchTick = tick()
+	        	end
+
+				local RayParams = RaycastParams.new()
+				RayParams.FilterType = Enum.RaycastFilterType.Blacklist
+				RayParams.FilterDescendantsInstances = {workspace.CurrentCamera, game:GetService("Players").LocalPlayer.Character, workspace.Map}
+				
+				local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
+				local Player
+			
+				if Result and Result.Instance then
+					if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
+						game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+					end
+				end
+			end
 		end
 	end
 	
