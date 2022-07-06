@@ -221,6 +221,10 @@ function StartAutofarm()
 												N:SendKeyEvent(false, 51, false, game)
 											end
 											wait(.1)
+											TurnBack = TurnBack - 0.1
+											if TurnBack <= 0 then
+												break
+											end
 										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or not v.Character:FindFirstChild("Spawned") or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
 									end
 								end
