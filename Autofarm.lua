@@ -1,7 +1,7 @@
 --[[
 	XRAF v4
 	Created by XR97
-	Description: An autofarm that was updated to versions 2 and 1, specifically looking at bypassing the new anti-cheat.
+	Description: What is supposedly the final update before A2, uses new bypasses to end games in at most, 50 seconds. At Least? 10
 	How It Works: Finds a player, teleports camera to them, uses raycast to detect if you're looking at a player, shoots, kills, repeat until game ends.
 	Then server hop and repeat.
 ]]
