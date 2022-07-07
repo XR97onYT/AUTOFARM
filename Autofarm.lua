@@ -45,7 +45,7 @@ mt.__namecall = newcclosure(function(self, ...)
     if tostring(nm) == "FindPartOnRayWithIgnoreList" then
         table.insert(arg[2], workspace.Map)
     end
-    if tostring(nm) == "FireServer" and tostring(self) == "UpdatePing" then
+    if tostring(nm) == "FireServer" and tostring(self) == "\85\112\100\97\116\101\80\105\110\103" then
         arg[1] = 2000
         return onc(self, unpack(arg))
     end
