@@ -295,7 +295,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 4)
 				    )
 				else
-				    workspace.CurrentCamera.CameraSubject = PlayerLocked.Character.Head
+				    workspace.CurrentCamera.CameraSubject = PlayerLocked.Character.HeadHB
 				    workspace.CurrentCamera.CFrame = CFrame.new((PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)).Position, PlayerLocked.Character.Head.Position + Vector3.new(0, .3, 0))
 				end
 				if (tick() - switchTick) >= 0.5 then
