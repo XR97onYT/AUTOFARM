@@ -67,7 +67,7 @@ local Hopped = false
 local TimeLeft = 30
 local TurnBack = 4
 local CheckTick = tick()
-local Message = getfenv().Message or "YOU CANNOT LOSE. YOU CANNOT WIN. YOU'VE BEEN B0T ROLLED AND THAT IS THE FACT."
+local message = getfenv().Message or "YOU CANNOT LOSE. YOU CANNOT WIN. YOU'VE BEEN B0T ROLLED AND THAT IS THE FACT."
 local PlayerLocked
 local Back = true
 
@@ -221,6 +221,7 @@ function StartAutofarm()
 												N:SendKeyEvent(false, 51, false, game)
 											end
 											wait(.1)
+											sayMessage(message)
 											TurnBack = TurnBack - 0.1
 											if TurnBack <= 0 then
 												break
@@ -272,7 +273,6 @@ spawn(function()
 					ServerHop() 
 					break 
 				end
-				sayMessage(message)
 			end
 		end
 	end
