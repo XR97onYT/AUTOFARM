@@ -228,8 +228,8 @@ _G.XRAutofarmRender = game:GetService("RunService").RenderStepped:Connect(functi
 				end
 
 				local RP = RaycastParams.new()
-				RP.FilterType = Enum.RaycastFilterType.Blacklist
-				RP.FilterDescendantsInstances = {workspace.CurrentCamera, Player.Character, workspace.Map}
+				RP.FilterType = Enum.RaycastFilterType.Whitelist
+				RP.FilterDescendantsInstances = {Target.Character}
 
 				local Res = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RP)
 
