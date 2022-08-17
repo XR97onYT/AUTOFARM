@@ -1,329 +1,335 @@
 --[[
-	XRAF v4
-	Created by XR97
-	Description: What is supposedly the final update before A2, uses new bypasses to end games in at most, 50 seconds. At Least? 10
-	How It Works: Finds a player, teleports camera to them, uses raycast to detect if you're looking at a player, shoots, kills, repeat until game ends.
-	Then server hop and repeat.
+	XRAF v4.1
+	Just a small rewrite and unpatch because Xonae is very funny
+	L by the way
 ]]
 
-function ServerHop()
-	local Servers = {}
-	local URL = "https://games.roblox.com/v1/games/286090429/servers/Public?limit=100"
+if not game:IsLoaded() then game.Loaded:Wait() end
 
-	for index, server in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGet(URL)).data) do
-		if type(server) == "table" and server.playing <= 15 and server.id ~= game.JobId then
-			table.insert(Servers, server.id)
+local Player = game:GetService("Players").LocalPlayer
+
+--== PING SPOOF FOR WALLBANG ==--
+
+local RandomLag = math.random(4,8)
+
+local MT = getrawmetatable(game)
+local OriginalNamecall = MT.__namecall
+
+setreadonly(MT, false)
+
+MT.__namecall = newcclosure(function(self, ...)
+	local Arguments = {...}
+	local NCM = getnamecallmethod()
+
+	if tostring(NCM) == "FindPartOnRayWithIgnoreList" then
+		table.insert(Arguments[2], workspace.Map)
+	end
+	if tostring(NCM) == "FireServer" then
+		if tostring(self) == "UpdatePing" then
+			Arguments[1] = RandomLag
+			RandomLag = math.random(4,8)
+			return OriginalNamecall(self, unpack(Arguments))
 		end
 	end
-
-	if #Servers > 0 then
-		game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, Servers[math.random(1, #Servers)])
-	end
-end
-
-spawn(function()
-	while true do
-		if game:GetService("GuiService"):GetErrorMessage() ~= nil and game:GetService("GuiService"):GetErrorMessage() ~= "" then
-			ServerHop()
-			break
-		end
-		wait(1)
-	end
+	return OriginalNamecall(self, ...)
 end)
 
-if not game:IsLoaded() then
-	game.Loaded:Wait()
-end
+setreadonly(MT, true)
 
-local mt = getrawmetatable(game)
-local onc = mt.__namecall
-local index = mt.__index
-setreadonly(mt, false)
-mt.__namecall = newcclosure(function(self, ...)
-    local arg = {...}
-    nm = getnamecallmethod()
-    if tostring(nm) == "FindPartOnRayWithIgnoreList" then
-        table.insert(arg[2], workspace.Map)
-    end
-    if tostring(nm) == "FireServer" and tostring(self) == "\85\112\100\97\116\101\80\105\110\103" then
-        arg[1] = 2000
-        return onc(self, unpack(arg))
-    end
-    return onc(self,...)
-end)
-setreadonly(mt, true)
+--== PING SPOOF FOR WALLBANG==--
 
-local ping = 32 
-spawn(function()
-    while wait(1) do 
-        ping = math.random(30, 70)
-    end 
-end)
+function HopServers()
+	local ServerList = {}
+	local ServersURL = "https://games.roblox.com/v1/games/286090429/servers/Public?limit=100"
 
-local N = game:GetService("VirtualInputManager")    
-
-local Farming = false
-local Hopped = false
-local TimeLeft = 30
-local TurnBack = 4
-local CheckTick = tick()
-local message = getfenv().Message or "YOU CANNOT LOSE. YOU CANNOT WIN. YOU'VE BEEN B0T ROLLED AND THAT IS THE FACT."
-local PlayerLocked
-local Back = true
-
-function DetectPlayer()
-	local Blacklist = {workspace.CurrentCamera}
-	if game:GetService("Players").LocalPlayer.Character then
-		table.insert(Blacklist, game:GetService("Players").LocalPlayer.Character)
-	end
-	if workspace:FindFirstChild("Map") then
-		table.insert(Blacklist, workspace.Map)
-	end
-
-	local RaycastParam = RaycastParams.new()
-	RaycastParam.FilterType = Enum.RaycastFilterType.Blacklist
-	RaycastParam.FilterDescendantsInstances = Blacklist
-
-	local NewRay = Ray.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position + Vector3.new(0, 1.5, 0), workspace.CurrentCamera.CFrame.LookVector * 50000, RaycastParam)
-	local PlayerGot
-
-	if NewRay.Instance then
-		if NewRay.Instance:IsDescendantOf(workspace) then
-			if NewRay.Instance.Parent:IsA("Model") then
-				if game:GetService("Players"):GetPlayerFromCharacter(NewRay.Instance.Parent) then
-					PlayerGot = game:GetService("Players"):GetPlayerFromCharacter(NewRay.Instance.Parent)
-				end
-			elseif NewRay.Instance.Parent:IsA("Accessory") then
-				if game:GetService("Players"):GetPlayerFromCharacter(NewRay.Instance.Parent.Parent) then
-					PlayerGot = game:GetService("Players"):GetPlayerFromCharacter(NewRay.Instance.Parent.Parent)
-				end
-			end
-		end
-
-		if PlayerGot and PlayerGot.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value and PlayerGot.NRPBS.Health.Value > 0 then
-			return true
+	for i, s in ipairs(game:GetService("HttpService"):JSONDecode(game:HttpGet(ServersURL)).data) do
+		if type(s) == "table" and s.playing <= 15 and s.id ~= game.JobId then -- Rolve if I can make it exclude the same server, so can you in the browser please thanks
+			table.insert(ServerList, s.id)
 		end
 	end
 
-	return false
-end
-
-function sayMessage(option)
-	if game.Players.LocalPlayer.Status.Team.Value ~= "Spectator" then
-		local Message = option
-		game.ReplicatedStorage.Events.PlayerChatted:FireServer("Trolling42", Message, false, false, true)
+	if #ServerList > 0 then
+		game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, ServerList[math.random(1, #ServerList)])
 	end
 end
 
-function StartAutofarm()
-	repeat wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
-	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then ServerHop() return end
-	
-	Farming = true
-	game.ReplicatedStorage.wkspc.TimeScale.Value = 10
-	for i,v in pairs(game:GetService("ReplicatedStorage").wkspc:GetDescendants()) do if v.Name:lower():find("curse") then v.Value = "Infinite Ammo" end end
-	-- lol infinite ammo, didn't feel like making my own script to modify the client's local variables, so I figure why not just use hackula's built in infinite ammo?
-	
-	spawn(function()
-		wait(2.5)
+function Chat(Message)
+	if Player.Status.Team.Value ~= "Spectator" then
+		game:GetService("ReplicatedStorage").Events.PlayerChatted:FireServer("Trolling42", Message, false, false, true)
+	end
+end
 
-		game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
+function JoinTeam()
+	task.spawn(function()
+		repeat
+			task.wait(1)
 
-		game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
-		game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-		game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-		game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-		game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-		game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-
-		wait(1.25)
-
-		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
 			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
 
-			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-		end
+			Player.PlayerGui.Menew.Enabled = false
+			Player.PlayerGui.GUI.Enabled = true
+			Player.PlayerGui.GUI.TeamSelection.Visible = false
+			Player.PlayerGui.GUI.BottomFrame.Visible = false
+			Player.PlayerGui.GUI.Interface.Visible = true
+			Player.PlayerGui.MapVoting.MapVote.Visible = false
 
-		wait(1.25)
+			task.wait(0.75)
 
-		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
-			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC")
+			if Player.Status.Team.Value == "Spectator" then
+				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC")
 
-			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-		end
+				Player.PlayerGui.Menew.Enabled = false
+				Player.PlayerGui.GUI.Enabled = true
+				Player.PlayerGui.GUI.TeamSelection.Visible = false
+				Player.PlayerGui.GUI.BottomFrame.Visible = false
+				Player.PlayerGui.GUI.Interface.Visible = true
+				Player.PlayerGui.MapVoting.MapVote.Visible = false
+			else
+				break
+			end
 
-		wait(1.25)
+			task.wait(0.75)
 
-		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
-			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TGC")
+			if Player.Status.Team.Value == "Spectator" then
+				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC")
 
-			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-		end
+				Player.PlayerGui.Menew.Enabled = false
+				Player.PlayerGui.GUI.Enabled = true
+				Player.PlayerGui.GUI.TeamSelection.Visible = false
+				Player.PlayerGui.GUI.BottomFrame.Visible = false
+				Player.PlayerGui.GUI.Interface.Visible = true
+				Player.PlayerGui.MapVoting.MapVote.Visible = false
+			else
+				break
+			end
 
-		wait(1.25)
+			task.wait(0.75)
 
-		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
-			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TYC")
+			if Player.Status.Team.Value == "Spectator" then
+				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TGC")
 
-			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-			game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-		end
+				Player.PlayerGui.Menew.Enabled = false
+				Player.PlayerGui.GUI.Enabled = true
+				Player.PlayerGui.GUI.TeamSelection.Visible = false
+				Player.PlayerGui.GUI.BottomFrame.Visible = false
+				Player.PlayerGui.GUI.Interface.Visible = true
+				Player.PlayerGui.MapVoting.MapVote.Visible = false
+			else
+				break
+			end
 
-		wait(1.25)
+			task.wait(0.75)
 
-		if game.Players.LocalPlayer.Status.Team.Value == "Spectator" then
-			game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("Random")
+			if Player.Status.Team.Value == "Spectator" then
+				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TYC")
 
-			game.Players.LocalPlayer.PlayerGui.Menew.Enabled = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Enabled = true
-			game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.BottomFrame.Visible = false
-			game.Players.LocalPlayer.PlayerGui.GUI.Interface.Visible = true
-			game.Players.LocalPlayer.PlayerGui.MapVoting.Enabled = false
-		end
+				Player.PlayerGui.Menew.Enabled = false
+				Player.PlayerGui.GUI.Enabled = true
+				Player.PlayerGui.GUI.TeamSelection.Visible = false
+				Player.PlayerGui.GUI.BottomFrame.Visible = false
+				Player.PlayerGui.GUI.Interface.Visible = true
+				Player.PlayerGui.MapVoting.MapVote.Visible = false
+			else
+				break
+			end
+
+			task.wait(0.75)
+
+			if Player.Status.Team.Value == "Spectator" then
+				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("Random")
+
+				Player.PlayerGui.Menew.Enabled = false
+				Player.PlayerGui.GUI.Enabled = true
+				Player.PlayerGui.GUI.TeamSelection.Visible = false
+				Player.PlayerGui.GUI.BottomFrame.Visible = false
+				Player.PlayerGui.GUI.Interface.Visible = true
+				Player.PlayerGui.MapVoting.Enabled = false
+			else
+				break
+			end
+		until Player.Status.Team.Value ~= "Spectator"
 	end)
+end
 
-	spawn(function()
+function HasBadWeapon()
+	return (game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flamethrower") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Launcher") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Water") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Present") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flaming") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon")) and true or false
+end
+
+local FakePing = 30
+local VirtualInput = game:GetService("VirtualInputManager")
+local VirtualUser = game:GetService("VirtualUser")
+
+local LoopCheck1 = tick()
+local LoopCheck2 = tick()
+local LoopCheck21 = false
+local LoopCheck22 = false
+local LoopCheck3 = tick()
+local LoopCheck4 = tick()
+local LoopCheck5 = tick()
+local LoopCheck6 = tick()
+local LoopCheck7 = tick()
+local LoopCheck77 = false
+
+local Farming = false
+local ServerHopped = false
+local TimeToHop = 25
+local SwitchPlayer = 3
+local ChatSpam = getfenv().Message or "I AM CLEARLY BETTER THEN DRACOO AND TANKR COMBINED. I AM GOD"
+local Target
+
+function Farm()
+	JoinTeam()
+
+	repeat task.wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false and Player.Status.Team.Value ~= "Spectator"
+
+	if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value == "Hackula" then
+		HopServers()
+		return
+	end
+
+	Farming = true
+	game:GetService("ReplicatedStorage").wkspc.TimeScale.Value = 10
+	game:GetService("ReplicatedStorage").wkspc.CurrentCurse.Value = "Infinite Ammo"
+	task.spawn(function()
 		repeat
-			if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
+			if Player.Status.Team.Value ~= "Spectator" then
 				for i,v in pairs(game:GetService("Players"):GetPlayers()) do
-					if v ~= game:GetService("Players").LocalPlayer then
-						if v.Character then
-							if v.NRPBS.Health.Value > 0 then
-								if v.Status.Team.Value ~= "Spectator" then
-									if v.Character:FindFirstChild("Spawned") and v.Status.Team.Value ~= game:GetService("Players").LocalPlayer.Status.Team.Value then
-										TimeLeft = 25
-										TurnBack = 4
-										Back = true
-										repeat
-											PlayerLocked = v
-											if game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flamethrower") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Launcher") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Water") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Present") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flaming") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") and v.Character:FindFirstChild("Hitbox") then
-												N:SendKeyEvent(true, 51, false, game)
-												N:SendKeyEvent(false, 51, false, game)
-											end
-											wait(.1)
-											sayMessage(message)
-											TurnBack = TurnBack - 0.1
-											if TurnBack <= 0 then
-												break
-											end
-										until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or not v.Character:FindFirstChild("Spawned") or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or game:GetService("Players").LocalPlayer.Status.Team.Value == v.Status.Team.Value
-									end
+					if v ~= Player then
+						if v.Character and v.NRPBS.Health.Value > 0 and v.Status.Team.Value ~= "Spectator" then
+							if v.Status.Team.Value ~= Player.Status.Team.Value then
+								if v.Character:FindFirstChild("Spawned") then
+									TimeToHop = 25
+									SwitchPlayer = 3
+									repeat
+										Target = v
+										Chat(ChatSpam)
+										SwitchPlayer = SwitchPlayer - 0.1
+										if SwitchPlayer <= 0 then break end
+										task.wait(0.1)
+									until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value or not v or not v.Character or not v.Character:FindFirstChild("Spawned") or v.NRPBS.Health.Value <= 0 or v.Status.Team.Value == "Spectator" or v.Status.Alive.Value == false or Player.Status.Team.Value == v.Status.Team.Value
 								end
 							end
 						end
 					end
 				end
 			end
-			wait(1)
+			task.wait()
 		until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 
-		wait(5)
-		ServerHop()
+		task.wait(4)
+		HopServers()
 	end)
 end
 
-spawn(function()
-	while wait(3) do
-		game:GetService("VirtualUser"):Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-		wait(1)
-		game:GetService("VirtualUser"):Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-	end
-end)
+if _G.XRAutofarmRender then
+	_G.XRAutofarmRender:Disconnect()
+	_G.XRAutofarmRender = nil
+end
 
-spawn(function()
-	while wait(.05) do
-		if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 and game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
-			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
-		end
-	end
-end)
+_G.XRAutofarmRender = game:GetService("RunService").RenderStepped:Connect(function()
+	Player.Ping.Value = FakePing
 
-spawn(function()
-	while wait(1) do
-		if Farming then
-			TimeLeft = TimeLeft - 1
-
-			if TimeLeft <= 0 then
-				ServerHop()
-				break
-			else
-				game.Players.LocalPlayer.PlayerGui.GUI.TeamSelection.Visible = false
-				game.Players.LocalPlayer.PlayerGui.MapVoting.MapVote.Visible = false
-				if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value:lower():find("hackula") then 
-					ServerHop() 
-					break 
-				end
-			end
-		end
-	end
-end)
-local num = 6
-local up = 0
-local switchTick = tick()
-local random1 = math.random(-2, 2)
-local random3 = math.random(-2, 2)
-local random2 = math.random(0, 3)
-game:GetService("RunService").RenderStepped:Connect(function()
-    game.Players.LocalPlayer.Ping.Value = ping
 	if Farming then
-		if game:GetService("Players").LocalPlayer.Status.Team.Value ~= "Spectator" then
-        	if PlayerLocked and PlayerLocked.Character and PlayerLocked.NRPBS.Health.Value > 0 and PlayerLocked.Character:FindFirstChild("HeadHB") then
-				if game.Players.LocalPlayer.NRPBS.EquippedTool.Value:find("Knife") then
-				    workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
-				    workspace.CurrentCamera.CFrame = CFrame.new(game.Players.LocalPlayer.Character.Head.Position, PlayerLocked.Character.HeadHB.Position)
-				    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(
-				        PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(-1.5, 0, 4)
-				    )
+		if Player.Status.Team.Value ~= "Spectator" then
+			if Target and Target.Character and Target.NRPBS.Health.Value > 0 and Target.Character:FindFirstChild("HeadHB") then
+				if Player.NRPBS.EquippedTool.Value:find("Knife") then
+					workspace.CurrentCamera.CameraSubject = Player.Character.Humanoid
+					Player.Character:SetPrimaryPartCFrame(Target.Character.HumanoidRootPart.CFrame * CFrame.new(-2, 0, 4))
+					workspace.CurrentCamera.CFrame = CFrame.new(
+						(Target.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)).Position, Target.Character.Head.Position
+					)
 				else
-				    workspace.CurrentCamera.CameraSubject = PlayerLocked.Character.HeadHB
-				    workspace.CurrentCamera.CFrame = CFrame.new((PlayerLocked.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)).Position, PlayerLocked.Character.Head.Position + Vector3.new(0, .175, 0))
+					workspace.CurrentCamera.CameraSubject = Target.Character.HeadHB
+					workspace.CurrentCamera.CFrame = CFrame.new(
+						(Target.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 6)).Position, Target.Character.Head.Position + Vector3.new(0, .1, 0)
+					)
 				end
-				if (tick() - switchTick) >= 0.5 then
-		        	random1 = math.random(-2, 2)
-		        	random2 = math.random(0, 3)
-		        	random3 = math.random(-2, 2)
-		        	switchTick = tick()
-	        	end
 
-				local RayParams = RaycastParams.new()
-				RayParams.FilterType = Enum.RaycastFilterType.Blacklist
-				RayParams.FilterDescendantsInstances = {workspace.CurrentCamera, game:GetService("Players").LocalPlayer.Character, workspace.Map}
-				
-				local Result = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RayParams)
-				local Player
-			
-				if Result and Result.Instance then
-					if Result.Instance:IsDescendantOf(PlayerLocked.Character) then
-						game:GetService("VirtualUser"):Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+				local RP = RaycastParams.new()
+				RP.FilterType = Enum.RaycastFilterType.Blacklist
+				RP.FilterDescendantsInstances = {workspace.CurrentCamera, Player.Character, workspace.Map}
+
+				local Res = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RP)
+
+				if Res and Res.Instance then
+					if Res.Instance:IsDescendantOf(Target.Character) and not Target.Character:FindFirstChild("ShuckyHAX") then
+						VirtualUser:Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 					end
 				end
+
+				if (tick() - LoopCheck7) >= 0.05 and not LoopCheck77 then
+					if HasBadWeapon() then
+						VirtualInput:SendKeyEvent(true, 51, false, game)
+						VirtualInput:SendKeyEvent(false, 51, false, game)
+						LoopCheck77 = true
+					else
+						VirtualInput:SendKeyEvent(true, 49, false, game)
+						VirtualInput:SendKeyEvent(false, 49, false, game)
+						LoopCheck77 = true
+					end
+					LoopCheck7 = tick()
+				else
+					LoopCheck77 = false
+				end
+			else
+				workspace.CurrentCamera.CameraSubject = Player.Character.Humanoid
 			end
 		end
 	end
-	
-	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then PlayerLocked = nil end
-	if not game:GetService("Players").LocalPlayer.Character then PlayerLocked = nil end
-	if game:GetService("Players").LocalPlayer.NRPBS.Health.Value <= 0 then PlayerLocked = nil end
+
+	if (tick() - LoopCheck1) >= 1 then
+		if game:GetService("GuiService"):GetErrorMessage() ~= nil and game:GetService("GuiService"):GetErrorMessage() ~= "" then
+			HopServers()
+			LoopCheck1 = tick()
+		end
+	end
+
+	if (tick() - LoopCheck2) >= 3 then
+		if not LoopCheck21 then
+			VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+			LoopCheck21 = true
+		end
+		if (tick() - LoopCheck2) >= 4 then
+			if not LoopCheck22 then
+				VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+				LoopCheck22 = true
+			end
+		end
+	else
+		LoopCheck2 = tick()
+		LoopCheck21 = false
+		LoopCheck22 = false
+	end
+
+	if (tick() - LoopCheck3) >= 1 then
+		FakePing = math.random(30, 70)
+		LoopCheck3 = tick()
+	end
+
+	if (tick() - LoopCheck4) >= 0.05 then
+		if Player.NRPBS.Health.Value <= 0 and Player.Status.Team.Value ~= "Spectator" then
+			game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+		end
+		LoopCheck4 = tick()
+	end
+
+	if (tick() - LoopCheck5) >= 1 then
+		if Farming then
+			TimeToHop = TimeToHop - 1
+
+			if TimeToHop <= 0 then
+				HopServers()
+			else
+				Player.PlayerGui.GUI.TeamSelection.Visible = false
+				Player.PlayerGui.MapVoting.MapVote.Visible = false
+			end
+		end
+		LoopCheck5 = tick()
+	end
+
+	if game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true then Target = nil end
+	if not Player.Character then Target = nil end
+	if Player.NRPBS.Health.Value <= 0 then Target = nil end
 end)
 
-StartAutofarm()
+Farm()
