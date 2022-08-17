@@ -10,31 +10,7 @@ local Player = game:GetService("Players").LocalPlayer
 
 --== PING SPOOF FOR WALLBANG ==--
 
-local RandomLag = math.random(4,8)
-
-local MT = getrawmetatable(game)
-local OriginalNamecall = MT.__namecall
-
-setreadonly(MT, false)
-
-MT.__namecall = newcclosure(function(self, ...)
-	local Arguments = {...}
-	local NCM = getnamecallmethod()
-
-	if tostring(NCM) == "FindPartOnRayWithIgnoreList" then
-		table.insert(Arguments[2], workspace.Map)
-	end
-	if tostring(NCM) == "FireServer" then
-		if tostring(self) == "UpdatePing" then
-			Arguments[1] = RandomLag
-			RandomLag = math.random(4,8)
-			return OriginalNamecall(self, unpack(Arguments))
-		end
-	end
-	return OriginalNamecall(self, ...)
-end)
-
-setreadonly(MT, true)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/XR97onYT/Arsenal-Autofarm/main/test.lua"))()
 
 --== PING SPOOF FOR WALLBANG==--
 
@@ -152,7 +128,7 @@ function JoinTeam()
 end
 
 function HasBadWeapon()
-	return (game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flamethrower") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Launcher") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Water") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Present") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flaming") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon")) and true or false
+	return (game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bow") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flamethrower") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Acid") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Launcher") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Water") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Present") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Flaming") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Bomb") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Barrel") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("RPG") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Rocket") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Cannon") or game:GetService("Players").LocalPlayer.NRPBS.EquippedTool.Value:find("Electric Revolver")) and true or false
 end
 
 local FakePing = 30
@@ -177,7 +153,13 @@ local SwitchPlayer = 3
 local ChatSpam = getfenv().Message or "I AM CLEARLY BETTER THEN DRACOO AND TANKR COMBINED. I AM GOD"
 local Target
 
+local SwitchToKnifeWeapons = {
+	"Electric Revoler", --[[Because if you kill too many people it bans you :skull:]] "Paintball", "Dispenser", "Bow", "Flamethrower", "Acid", "Cannon", "Launcher", "RPG", "Water Balloon", "Presents", "Bomb", "Explosive Barrel", "Knife"
+}
+
 function Farm()
+    repeat task.wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
+    
 	JoinTeam()
 
 	repeat task.wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false and Player.Status.Team.Value ~= "Spectator"
@@ -261,10 +243,6 @@ _G.XRAutofarmRender = game:GetService("RunService").RenderStepped:Connect(functi
 					if HasBadWeapon() then
 						VirtualInput:SendKeyEvent(true, 51, false, game)
 						VirtualInput:SendKeyEvent(false, 51, false, game)
-						LoopCheck77 = true
-					else
-						VirtualInput:SendKeyEvent(true, 49, false, game)
-						VirtualInput:SendKeyEvent(false, 49, false, game)
 						LoopCheck77 = true
 					end
 					LoopCheck7 = tick()
