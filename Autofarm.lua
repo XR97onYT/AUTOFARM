@@ -175,6 +175,8 @@ else
 	}
 
 	function Farm()
+	    repeat task.wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false
+	    
 		JoinTeam()
 
 		repeat task.wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false and Player.Status.Team.Value ~= "Spectator"
@@ -312,6 +314,7 @@ else
 
 				if TimeToHop <= 0 then
 					HopServers()
+					LoopCheck5 = tick() + 1000000 -- no server crash
 				else
 					Player.PlayerGui.GUI.TeamSelection.Visible = false
 					Player.PlayerGui.MapVoting.MapVote.Visible = false
@@ -327,4 +330,3 @@ else
 
 	Farm()
 end
-
