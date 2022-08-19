@@ -275,7 +275,7 @@ else
 		if (tick() - LoopCheck1) >= 1 then
 			if game:GetService("GuiService"):GetErrorMessage() ~= nil and game:GetService("GuiService"):GetErrorMessage() ~= "" then
 				HopServers()
-				LoopCheck1 = tick()
+				LoopCheck1 = tick() + 10
 			end
 		end
 
@@ -329,6 +329,4 @@ else
 	end)
 
 	Farm()
-end
-
 end
