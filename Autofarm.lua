@@ -187,7 +187,7 @@ else
 		end
 
 		Farming = true
-		game:GetService("ReplicatedStorage").wkspc.TimeScale.Value = 10
+		game:GetService("ReplicatedStorage").wkspc.TimeScale.Value = 4
 		game:GetService("ReplicatedStorage").wkspc.CurrentCurse.Value = "Infinite Ammo"
 		task.spawn(function()
 			repeat
@@ -212,7 +212,7 @@ else
 						end
 					end
 				end
-				task.wait()
+				task.wait(0.5)
 			until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
 			Farming = false
 			task.wait(4)
