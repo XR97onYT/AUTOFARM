@@ -9,7 +9,7 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local versionId = 10165
 
 local Player = game:GetService("Players").LocalPlayer
-
+repeat task.wait() until Player:FindFirstChild("DataLoaded")
 if game:GetService("ReplicatedStorage").wkspc.VersionID.Value ~= versionId then
 	local m = Instance.new("ScreenGui")
 	m.Name = "ShadowNotify" -- what you gonna do xonae detect your own guis? :)
@@ -251,7 +251,7 @@ else
 					local Res = workspace:Raycast(workspace.CurrentCamera.CFrame.Position, workspace.CurrentCamera.CFrame.LookVector * 10000, RP)
 
 					if Res and Res.Instance then
-						if Res.Instance:IsDescendantOf(Target.Character) and not Target.Character:FindFirstChild("ShuckyHAX") then
+						if Res.Instance:IsDescendantOf(Target.Character) then
 							VirtualUser:Button1Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 						end
 					end
