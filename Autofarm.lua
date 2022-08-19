@@ -11,9 +11,21 @@ local versionId = 10165
 local Player = game:GetService("Players").LocalPlayer
 
 if tonumber(Player.PlayerGui.GUI.Perf.Text:sub(-6,-2)) ~= versionId then
-	local m = Instance.new("Message")
-	m.Text = "The script is patched, wait for an update. (last Update: Version ID 10165)"
-	m.Parent = workspace
+	local m = Instance.new("ScreenGui")
+	m.Name = "ShadowNotify" -- what you gonna do xonae detect your own guis? :)
+	m.IgnoreGuiInset = true
+	local x = Instance.new("TextLabel")
+	x.Size = UDim2.new(1, 0, 1, 0)
+	x.BackgroundColor3 = Color3.new(0, 0, 0)
+	x.TextColor3 = Color3.new(1, 1, 1)
+	x.TextSize = 30
+	x.RichText = true
+	x.TextStrokeTransparency = 0.5
+	x.TextStrokeColor3 = Color3.new(0, 0, 0)
+	x.Font = Enum.Font.SourceSansBold
+	x.Text = "The script is <font color='rgb(160, 0, 0)'>patched</font>, wait for an update.\nLast Update: <font color='rgb(180, 0, 180)'>[Version "..tostring(versionId).."]</font>"
+	x.Parent = m
+	m.Parent = Player.PlayerGui
 	wait(5)
 	m:Destroy()
 else
@@ -315,5 +327,4 @@ else
 
 	Farm()
 end
-
 
