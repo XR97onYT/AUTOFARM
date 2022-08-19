@@ -10,7 +10,7 @@ local versionId = 10165
 
 local Player = game:GetService("Players").LocalPlayer
 
-if tonumber(Player.PlayerGui.GUI.Perf.Text:sub(-6,-2)) ~= versionId then
+if game:GetService("ReplicatedStorage").wkspc.VersionID.Value ~= versionId then
 	local m = Instance.new("ScreenGui")
 	m.Name = "ShadowNotify" -- what you gonna do xonae detect your own guis? :)
 	m.IgnoreGuiInset = true
