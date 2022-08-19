@@ -214,7 +214,7 @@ else
 				end
 				task.wait()
 			until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == true
-
+			Farming = false
 			task.wait(4)
 			HopServers()
 		end)
