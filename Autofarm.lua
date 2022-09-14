@@ -6,7 +6,7 @@
 ]]
 
 if not game:IsLoaded() then game.Loaded:Wait() end
-local versionId = 10197
+local versionId = 10219
 
 local Player = game:GetService("Players").LocalPlayer
 repeat task.wait() until Player:FindFirstChild("DataLoaded")
@@ -303,7 +303,7 @@ else
 
 		if (tick() - LoopCheck4) >= 0.05 then
 			if Player.NRPBS.Health.Value <= 0 and Player.Status.Team.Value ~= "Spectator" then
-				game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer()
+				game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer("Hello!")
 			end
 			LoopCheck4 = tick()
 		end
