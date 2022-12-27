@@ -6,7 +6,7 @@
 ]]
 
 if not game:IsLoaded() then game.Loaded:Wait() end
-local versionId = 10424
+local versionId = 10449
 
 local Player = game:GetService("Players").LocalPlayer
 repeat task.wait() until Player:FindFirstChild("DataLoaded")
@@ -57,7 +57,7 @@ else
 			repeat
 				task.wait(1)
 
-				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC", "bro")
+				game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC", "L")
 
 				Player.PlayerGui.Menew.Enabled = false
 				Player.PlayerGui.GUI.Enabled = true
@@ -69,7 +69,7 @@ else
 				task.wait(0.75)
 
 				if Player.Status.Team.Value == "Spectator" then
-					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC", "bro")
+					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TRC", "L")
 
 					Player.PlayerGui.Menew.Enabled = false
 					Player.PlayerGui.GUI.Enabled = true
@@ -84,7 +84,7 @@ else
 				task.wait(0.75)
 
 				if Player.Status.Team.Value == "Spectator" then
-					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC", "bro")
+					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TBC", "L")
 
 					Player.PlayerGui.Menew.Enabled = false
 					Player.PlayerGui.GUI.Enabled = true
@@ -99,7 +99,7 @@ else
 				task.wait(0.75)
 
 				if Player.Status.Team.Value == "Spectator" then
-					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TGC", "bro")
+					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TGC", "L")
 
 					Player.PlayerGui.Menew.Enabled = false
 					Player.PlayerGui.GUI.Enabled = true
@@ -114,7 +114,7 @@ else
 				task.wait(0.75)
 
 				if Player.Status.Team.Value == "Spectator" then
-					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TYC", "bro")
+					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("TYC", "L")
 
 					Player.PlayerGui.Menew.Enabled = false
 					Player.PlayerGui.GUI.Enabled = true
@@ -129,7 +129,7 @@ else
 				task.wait(0.75)
 
 				if Player.Status.Team.Value == "Spectator" then
-					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("Random", "bro")
+					game:GetService("ReplicatedStorage").Events.JoinTeam:FireServer("Random", "L")
 
 					Player.PlayerGui.Menew.Enabled = false
 					Player.PlayerGui.GUI.Enabled = true
@@ -303,7 +303,7 @@ else
 
 		if (tick() - LoopCheck4) >= 0.05 then
 			if Player.NRPBS.Health.Value <= 0 and Player.Status.Team.Value ~= "Spectator" then
-				game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer("Hello!")
+				game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer("Goodbye!")
 			end
 			LoopCheck4 = tick()
 		end
