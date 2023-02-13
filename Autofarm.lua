@@ -254,10 +254,6 @@ else
 							VirtualInput:SendKeyEvent(true, 51, false, game)
 							VirtualInput:SendKeyEvent(false, 51, false, game)
 							LoopCheck77 = true
-						else
-							VirtualInput:SendKeyEvent(true, 49, false, game)
-							VirtualInput:SendKeyEvent(false, 49, false, game)
-							LoopCheck77 = true
 						end
 						LoopCheck7 = tick()
 					else
