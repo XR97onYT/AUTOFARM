@@ -1,12 +1,10 @@
 --[[
-	XRAF v4.3
-	Swear to god xonae you won't be autobanning now >:(
-	Im still in the Arsenal discord Spying on you hehe
-	I also know which non arsenal related server youre in. :)
+	XRAF v4.4
+	Hey, Xonae, You are Incredibly smart!!!! But, Not Smart Enough!!!! (nigger)
 ]]
 
 if not game:IsLoaded() then game.Loaded:Wait() end
-local versionId = 10449
+local versionId = 10559
 
 local Player = game:GetService("Players").LocalPlayer
 repeat task.wait() until Player:FindFirstChild("DataLoaded")
@@ -42,7 +40,7 @@ else
 		end
 
 		if #ServerList > 0 then
-			game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, ServerList[math.random(1, #ServerList)])
+			--game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, ServerList[math.random(1, #ServerList)])
 		end
 	end
 
@@ -181,11 +179,6 @@ else
 
 		repeat task.wait() until game:GetService("ReplicatedStorage").wkspc.Status.RoundOver.Value == false and Player.Status.Team.Value ~= "Spectator"
 
-		if game:GetService("ReplicatedStorage").wkspc.Status.LastGamemode.Value == "Hackula" then
-			HopServers()
-			return
-		end
-
 		Farming = true
 		game:GetService("ReplicatedStorage").wkspc.TimeScale.Value = 4
 		game:GetService("ReplicatedStorage").wkspc.CurrentCurse.Value = "Infinite Ammo"
@@ -303,7 +296,7 @@ else
 
 		if (tick() - LoopCheck4) >= 0.05 then
 			if Player.NRPBS.Health.Value <= 0 and Player.Status.Team.Value ~= "Spectator" then
-				game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer("Goodbye!")
+				game:GetService("ReplicatedStorage").Events.LoadCharacter:FireServer("xonae!")
 			end
 			LoopCheck4 = tick()
 		end
