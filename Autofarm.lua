@@ -307,7 +307,7 @@ else
 
 				if TimeToHop <= 0 then
 					HopServers()
-					LoopCheck5 = tick() + 1000000 -- no server crash
+					_G.XRAutofarmRender:Disconnect()
 				else
 					Player.PlayerGui.GUI.TeamSelection.Visible = false
 					Player.PlayerGui.MapVoting.MapVote.Visible = false
