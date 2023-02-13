@@ -40,7 +40,7 @@ else
 		end
 
 		if #ServerList > 0 then
-			--game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, ServerList[math.random(1, #ServerList)])
+			game:GetService("TeleportService"):TeleportToPlaceInstance(286090429, ServerList[math.random(1, #ServerList)])
 		end
 	end
 
