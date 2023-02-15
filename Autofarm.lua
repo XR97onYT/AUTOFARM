@@ -1,10 +1,11 @@
 --[[
 	XRAF v4.4
 	Hey, Xonae, You are Incredibly smart!!!! But, Not Smart Enough!!!! (nigger)
+	Fixed to work with krnl.
 ]]
 
 if not game:IsLoaded() then game.Loaded:Wait() end
-local versionId = 10559
+local versionId = 10594
 
 local Player = game:GetService("Players").LocalPlayer
 repeat task.wait() until Player:FindFirstChild("DataLoaded")
